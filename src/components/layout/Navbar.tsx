@@ -11,6 +11,10 @@ export const Navbar = () => {
   const [hoveredSubIndex, setHoveredSubIndex] = useState<number>(0);
   const [hoveredMenuIndex, setHoveredMenuIndex] = useState<number | null>(null);
 
+  const isHomePage = location.pathname === '/';
+  const isDarkTheme = isHomePage && !isScrolled;
+  const showNavbar = isHomePage && !isScrolled;
+
   const handleMenuHover = (index: number) => {
     setHoveredMenuIndex(index);
     setHoveredSubIndex(0);
@@ -50,14 +54,14 @@ export const Navbar = () => {
   const resourcesList = [
     { name: 'Search Guides', path: '/search', desc: 'Find specific AI guides and prompts', icon: Search, color: 'text-slate-600 bg-slate-100/80 border border-border1/30', hex: 'rgb(139, 92, 246)' },
     { name: 'Popular Guides', path: '/', desc: 'Check out the most copied AI workflows', icon: Compass, color: 'text-slate-600 bg-slate-100/80 border border-border1/30', hex: 'rgb(236, 72, 153)' },
-    { name: 'FAQ & Help', path: '/search', desc: 'Answers to common AI creation questions', icon: HelpCircle, color: 'text-slate-600 bg-slate-100/80 border border-border1/30', hex: 'rgb(20, 184, 166)' },
-    { name: 'Community', path: '/', desc: 'Share your AI workflows and prompts', icon: Users, color: 'text-slate-600 bg-slate-100/80 border border-border1/30', hex: 'rgb(249, 115, 22)' },
+    { name: 'FAQ & Help', path: '/faq', desc: 'Answers to common AI creation questions', icon: HelpCircle, color: 'text-slate-600 bg-slate-100/80 border border-border1/30', hex: 'rgb(20, 184, 166)' },
+    { name: 'Community', path: '/community', desc: 'Share your AI workflows and prompts', icon: Users, color: 'text-slate-600 bg-slate-100/80 border border-border1/30', hex: 'rgb(249, 115, 22)' },
   ];
 
   const companyList = [
-    { name: 'Our Mission', path: '/', desc: 'Democratizing viral AI video creation', icon: Globe, color: 'text-slate-600 bg-slate-100/80 border border-border1/30', hex: 'rgb(16, 185, 129)' },
-    { name: 'Brand Assets', path: '/', desc: 'Download official logos and styles', icon: ShieldCheck, color: 'text-slate-600 bg-slate-100/80 border border-border1/30', hex: 'rgb(99, 102, 241)' },
-    { name: 'Contact Us', path: '/', desc: 'Get in touch for custom workflows', icon: Mail, color: 'text-slate-600 bg-slate-100/80 border border-border1/30', hex: 'rgb(239, 68, 68)' },
+    { name: 'Our Mission', path: '/about', desc: 'Democratizing viral AI video creation', icon: Globe, color: 'text-slate-600 bg-slate-100/80 border border-border1/30', hex: 'rgb(16, 185, 129)' },
+    { name: 'Brand Assets', path: '/brand', desc: 'Download official logos and styles', icon: ShieldCheck, color: 'text-slate-600 bg-slate-100/80 border border-border1/30', hex: 'rgb(99, 102, 241)' },
+    { name: 'Contact Us', path: '/contact', desc: 'Get in touch for custom workflows', icon: Mail, color: 'text-slate-600 bg-slate-100/80 border border-border1/30', hex: 'rgb(239, 68, 68)' },
   ];
 
   const mobileNavItems = [
@@ -71,18 +75,33 @@ export const Navbar = () => {
       <div className="w-full fixed top-0 left-0 right-0 z-50 select-none pointer-events-none">
         <motion.header
           layout
+          initial={{ y: 0, opacity: 1 }}
+          animate={{ 
+            y: showNavbar ? 0 : -64, 
+            opacity: showNavbar ? 1 : 0 
+          }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
           className={cn(
-            "w-full h-12 bg-white border-b border-border1/60 flex items-center pointer-events-auto transition-all duration-300",
-            isScrolled ? "bg-white/90 backdrop-blur-md border-border1/80 shadow-[0_1px_3px_rgba(0,0,0,0.05)]" : ""
+            "w-full h-12 flex items-center transition-all duration-300",
+            showNavbar ? "pointer-events-auto" : "pointer-events-none",
+            isDarkTheme
+              ? "bg-transparent border-b border-transparent"
+              : "bg-white/90 backdrop-blur-md border-b border-border1/80 shadow-[0_1px_3px_rgba(0,0,0,0.05)]"
           )}
         >
           <div className="w-full px-6 flex items-center justify-between h-full">
             {/* Logo & Name */}
             <Link to="/" className="flex items-center space-x-3 group">
-              <div className="w-8 h-8 rounded-xl overflow-hidden border border-border1/60 flex items-center justify-center p-0.5 group-hover:scale-105 transition-transform duration-300 bg-white shadow-sm">
+              <div className={cn(
+                "w-8 h-8 rounded-xl overflow-hidden flex items-center justify-center p-0.5 group-hover:scale-105 transition-transform duration-300 shadow-sm transition-colors duration-300",
+                isDarkTheme ? "border border-white/10 bg-[#07070d]/50" : "border border-border1/60 bg-white"
+              )}>
                 <img src="/logo.png" alt="ViralAI Hub Logo" className="w-full h-full object-contain" />
               </div>
-              <span className="font-heading text-sm md:text-base font-semibold text-textPrimary tracking-tight">
+              <span className={cn(
+                "font-heading text-base md:text-lg font-bold tracking-tight transition-colors duration-300",
+                isDarkTheme ? "text-white" : "text-textPrimary"
+              )}>
                 ViralAI Hub
               </span>
             </Link>
@@ -107,12 +126,14 @@ export const Navbar = () => {
                   >
                     <button
                       className={cn(
-                        "relative px-4 py-1.5 text-xs font-semibold rounded-full flex items-center space-x-1 transition-colors outline-none cursor-pointer border-0 bg-transparent",
-                        active ? "text-textPrimary" : "text-textSecondary hover:text-textPrimary"
+                        "relative px-4 py-1.5 text-sm font-bold rounded-full flex items-center space-x-1 transition-all outline-none cursor-pointer border-0 bg-transparent duration-300",
+                        isDarkTheme
+                          ? (active ? "text-white" : "text-white/60 hover:text-white")
+                          : (active ? "text-textPrimary" : "text-textSecondary hover:text-textPrimary")
                       )}
                     >
                       <span className="relative z-10">{item.name}</span>
-                      <ChevronDown size={12} className={cn("relative z-10 transition-transform duration-200", active && "rotate-180")} />
+                      <ChevronDown size={14} className={cn("relative z-10 transition-transform duration-200", active && "rotate-180")} />
                     </button>
 
                     {/* Expansive split-pane dropdown relative to this menu item */}
@@ -124,13 +145,19 @@ export const Navbar = () => {
                           exit={{ opacity: 0, y: 8, scale: 0.96 }}
                           transition={{ duration: 0.15, ease: 'easeOut' }}
                           className={cn(
-                            "absolute top-full mt-2 w-[560px] bg-white border border-border1 rounded-[24px] p-2 shadow-[0px_10px_30px_rgba(0,0,0,0.08)] z-50 flex overflow-hidden",
+                            "absolute top-full mt-2 w-[560px] rounded-[24px] p-2 z-50 flex overflow-hidden transition-all duration-300",
+                            isDarkTheme
+                              ? "bg-[#07070d]/95 backdrop-blur-xl border border-white/10 shadow-[0px_15px_40px_rgba(0,0,0,0.6)]"
+                              : "bg-white border border-border1 shadow-[0px_10px_30px_rgba(0,0,0,0.08)]",
                             item.index === 2 ? "-right-10 origin-top-right" : "-left-10 origin-top-left"
                           )}
                         >
                           {/* Left Column: List */}
                           <div className="flex-1 p-2 flex flex-col gap-1 relative z-10">
-                            <div className="px-3 pb-2 text-[10px] uppercase font-bold tracking-wider text-textMuted font-mono text-left">
+                            <div className={cn(
+                              "px-3 pb-2 text-[10px] uppercase font-bold tracking-wider font-mono text-left transition-colors duration-300",
+                              isDarkTheme ? "text-white/40" : "text-textMuted"
+                            )}>
                               {hoveredMenuIndex === 0 && 'Guides by Categories'}
                               {hoveredMenuIndex === 1 && 'Resources & Tools'}
                               {hoveredMenuIndex === 2 && 'About ViralAI Hub'}
@@ -158,21 +185,32 @@ export const Navbar = () => {
                                       {isSubHovered && (
                                         <motion.div
                                           layoutId="categoryHoverHighlight"
-                                          className="absolute inset-0 bg-neutral-200/60 rounded-xl"
+                                          className={cn(
+                                            "absolute inset-0 rounded-xl",
+                                            isDarkTheme ? "bg-white/5" : "bg-neutral-200/60"
+                                          )}
                                           transition={{ type: 'spring', stiffness: 380, damping: 28 }}
                                         />
                                       )}
                                       <div className={cn(
-                                        "w-8 h-8 rounded-lg flex items-center justify-center shrink-0 shadow-sm border border-border1/20 relative z-10",
-                                        subItem.color
+                                        "w-8 h-8 rounded-lg flex items-center justify-center shrink-0 shadow-sm relative z-10 transition-colors duration-200",
+                                        isDarkTheme 
+                                          ? "text-white/80 bg-white/5 border border-white/10" 
+                                          : subItem.color
                                       )}>
                                         <Icon size={16} />
                                       </div>
                                       <div className="space-y-0.5 text-left relative z-10">
-                                        <h4 className="text-xs font-semibold text-textPrimary leading-none group-hover/cat:text-primary transition-colors duration-200">
+                                        <h4 className={cn(
+                                          "text-xs font-semibold leading-none transition-colors duration-200",
+                                          isDarkTheme ? "text-white group-hover/cat:text-white" : "text-textPrimary group-hover/cat:text-primary"
+                                        )}>
                                           {subItem.name}
                                         </h4>
-                                        <p className="text-[10px] text-textMuted leading-tight font-light line-clamp-1">
+                                        <p className={cn(
+                                          "text-[10px] leading-tight font-light line-clamp-1 transition-colors duration-200",
+                                          isDarkTheme ? "text-white/40" : "text-textMuted"
+                                        )}>
                                           {subItem.desc}
                                         </p>
                                       </div>
@@ -238,7 +276,16 @@ export const Navbar = () => {
             {/* Search trigger icon on the right */}
             <div className="hidden md:flex items-center">
               <Link to="/search">
-                <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-full text-textSecondary hover:text-textPrimary bg-surface2 hover:bg-surface1 border border-border1/20 hover:border-primary/20 transition-all duration-300">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className={cn(
+                    "h-8 w-8 p-0 rounded-full transition-all duration-300",
+                    isDarkTheme
+                      ? "text-white/85 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20"
+                      : "text-textSecondary hover:text-textPrimary bg-surface2 hover:bg-surface1 border border-border1/20 hover:border-primary/20"
+                  )}
+                >
                   <Search size={14} />
                 </Button>
               </Link>
@@ -248,7 +295,18 @@ export const Navbar = () => {
       </div>
 
       {/* Mobile Bottom Navigation Bar */}
-      <nav className="block md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 border-t border-border1 backdrop-blur-lg px-4 py-2.5 shadow-lg select-none">
+      <motion.nav 
+        initial={{ y: 0, opacity: 1 }}
+        animate={{ 
+          y: showNavbar ? 0 : 80, 
+          opacity: showNavbar ? 1 : 0 
+        }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className={cn(
+          "block md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 border-t border-border1 backdrop-blur-lg px-4 py-2.5 shadow-lg select-none",
+          showNavbar ? "pointer-events-auto" : "pointer-events-none"
+        )}
+      >
         <div className="flex justify-around items-center relative h-10">
           {mobileNavItems.map((item) => {
             const active = item.path === '/category/ai-video' 
@@ -276,7 +334,7 @@ export const Navbar = () => {
             );
           })}
         </div>
-      </nav>
+      </motion.nav>
     </>
   );
 };

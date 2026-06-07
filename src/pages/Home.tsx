@@ -24,6 +24,11 @@ export const Home = () => {
   // Fetch all trends for stats/featured rows
   const { trends: allTrends, loading: allLoading } = useTrends();
 
+  const getCategoryCount = (slug: string | undefined) => {
+    if (slug === undefined) return allTrends.length;
+    return allTrends.filter(t => t.category?.slug === slug).length;
+  };
+
   const exploreRef = useRef<HTMLDivElement>(null);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
@@ -84,8 +89,8 @@ export const Home = () => {
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
-      {/* Fixed navbar offset */}
-      <div className="pt-12">
+      {/* Hero sits directly at the top with a transparent navbar overlay */}
+      <div>
         {/* Section 1: Hero (full screen) */}
         <section className="w-full border-b border-border2">
           <HeroSection onExploreClick={handleExploreClick} />
@@ -99,49 +104,67 @@ export const Home = () => {
 
       <div ref={exploreRef} className="w-full">
         {/* Section 2: Trending Now */}
-        <section className="min-h-screen flex flex-col justify-center py-24 px-6 md:px-12 border-b border-border2 bg-embers-glow">
+        <motion.section
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="min-h-screen flex flex-col justify-center py-24 px-6 md:px-12 border-b border-border2 bg-embers-glow"
+        >
           <div className="max-w-[1400px] mx-auto w-full">
             {allLoading ? <FeaturedTrendsSkeleton /> : <FeaturedTrends trends={allTrends} />}
           </div>
-        </section>
+        </motion.section>
 
         {/* Section 3: Browse Prompts by Tools */}
-        <section className="min-h-screen flex flex-col justify-center py-24 px-6 md:px-12 border-b border-border2 bg-dot-matrix">
+        <motion.section
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="min-h-screen flex flex-col justify-center py-24 px-6 md:px-12 border-b border-border2 bg-dot-matrix"
+        >
           <div className="max-w-[1400px] mx-auto w-full">
             <PromptsByTools />
           </div>
-        </section>
+        </motion.section>
 
         {/* Section 4: Latest AI Trends (Filter & Grid) */}
-        <section className="min-h-screen flex flex-col justify-start py-24 px-6 md:px-12 border-b border-border2 bg-pinstripe-emerald">
+        <motion.section
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.05 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="min-h-screen flex flex-col justify-start py-24 px-6 md:px-12 border-b border-border2 bg-pinstripe-emerald"
+        >
           <div className="max-w-[1400px] mx-auto w-full space-y-8">
-            {/* Category Filter Pills */}
-            <div className="space-y-4">
-              <h3 className="font-heading text-xs uppercase tracking-wider font-semibold text-textSecondary text-left">
-                Filter by Category
-              </h3>
-              <div className="w-full overflow-hidden">
-                <div className="flex space-x-2 overflow-x-auto pb-2 px-1 no-scrollbar scroll-smooth">
+            {/* Category Filter Bar */}
+            <div className="py-3 border-b border-white/10">
+              <div className="flex items-center gap-3">
+                <span className="text-[9px] uppercase font-bold tracking-wider text-white/40 font-mono shrink-0 hidden sm:block">
+                  Filter
+                </span>
+                <div className="flex space-x-2 overflow-x-auto pb-0 px-1 no-scrollbar scroll-smooth">
                   {categoryPills.map((p) => {
                     const isActive = selectedCategory === p.slug;
                     return (
                       <button
                         key={p.name}
                         onClick={() => setSelectedCategory(p.slug)}
-                        className="relative px-5 py-2 text-xs font-medium rounded-full focus:outline-none transition-all duration-300 shrink-0 cursor-pointer"
+                        className="relative px-4 py-1.5 text-xs font-medium rounded-full focus:outline-none transition-all duration-300 shrink-0 cursor-pointer"
                       >
                         {isActive && (
                           <motion.div
                             layoutId="activeCategoryPill"
-                            className="absolute inset-0 bg-primary rounded-full"
+                            className="absolute inset-0 bg-[#ff7759] rounded-full"
                             transition={{ type: 'spring', stiffness: 350, damping: 25 }}
                           />
                         )}
                         {!isActive && (
-                          <div className="absolute inset-0 border border-border1 rounded-full bg-surface2 hover:bg-surface1 transition-colors" />
+                          <div className="absolute inset-0 border border-white/10 rounded-full bg-white/5 hover:bg-white/10 transition-colors" />
                         )}
-                        <span className={`relative z-10 ${isActive ? 'text-white font-semibold' : 'text-textSecondary hover:text-textPrimary'}`}>
-                          {p.name}
+                        <span className={`relative z-10 ${isActive ? 'text-white font-bold' : 'text-white/60 hover:text-white'}`}>
+                          {p.name} <span className="opacity-60 text-[10px] ml-0.5 font-normal">({getCategoryCount(p.slug)})</span>
                         </span>
                       </button>
                     );
@@ -157,28 +180,34 @@ export const Home = () => {
               <LatestGrid trends={trends} />
             )}
           </div>
-        </section>
+        </motion.section>
 
-        {/* Section 5: Frequently Asked Questions */}
-        <section className="min-h-screen flex flex-col justify-center py-24 px-6 md:px-12 border-b border-border2 bg-faq-lights">
+        {/* Section 5: FAQ */}
+        <motion.section
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="min-h-screen flex flex-col justify-center py-24 px-6 md:px-12 border-b border-border2 bg-faq-lights"
+        >
           <div className="max-w-[1400px] mx-auto w-full">
             <FaqSection />
           </div>
-        </section>
+        </motion.section>
 
         {/* Section 6: Newsletter Subscription */}
         <section className="min-h-screen flex flex-col justify-center py-24 px-6 md:px-12 bg-newsletter-cosmic">
           <div className="max-w-[1400px] mx-auto w-full">
-            <div className="w-full py-16 px-6 md:px-12 bg-white rounded-3xl overflow-hidden relative border border-border1">
+            <div className="w-full py-16 px-6 md:px-12 bg-white/[0.03] backdrop-blur-md rounded-3xl overflow-hidden relative border border-white/10">
               <div className="relative z-10 max-w-2xl mx-auto text-center space-y-6">
-                <div className="inline-flex p-3 bg-surface3 border border-success/20 rounded-2xl text-success mb-2">
+                <div className="inline-flex p-3 bg-[#ff7759]/10 border border-[#ff7759]/20 rounded-2xl text-[#ff7759] mb-2">
                   <Mail size={24} />
                 </div>
                 
-                <h2 className="text-2xl sm:text-4xl font-heading font-medium text-textPrimary leading-none">
+                <h2 className="text-2xl sm:text-4xl font-heading font-medium text-white leading-none">
                   Get Weekly Viral AI Prompts
                 </h2>
-                <p className="text-xs sm:text-sm text-textSecondary font-light leading-relaxed max-w-md mx-auto">
+                <p className="text-xs sm:text-sm text-white/40 font-light leading-relaxed max-w-md mx-auto">
                   Stay ahead of the curve. Get copy-paste templates, new trend alerts, and tutorials sent to your inbox every single week.
                 </p>
       
@@ -186,7 +215,7 @@ export const Home = () => {
                   <motion.div
                     initial={{ scale: 0.9, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="flex items-center justify-center space-x-2 text-emerald-700 font-semibold bg-emerald-500/10 p-4 rounded-full border border-emerald-500/20 max-w-sm mx-auto"
+                    className="flex items-center justify-center space-x-2 text-emerald-400 font-semibold bg-emerald-500/10 p-4 rounded-full border border-emerald-500/20 max-w-sm mx-auto"
                   >
                     <Check size={16} />
                     <span className="text-xs">Awesome! You've been subscribed.</span>
@@ -199,12 +228,12 @@ export const Home = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
-                      className="flex-1 bg-white border border-border1 rounded-full px-6 py-3 text-xs text-textPrimary placeholder:text-textMuted focus:outline-none focus:border-primary/50 transition-colors"
+                      className="flex-1 bg-white/5 border border-white/10 rounded-full px-6 py-3 text-xs text-white placeholder:text-white/40 focus:outline-none focus:border-white/30 transition-colors"
                     />
                     <Button
                       type="submit"
                       disabled={newsLoading}
-                      variant="default"
+                      variant="premium"
                       className="w-full sm:w-auto h-11 flex items-center justify-center gap-1.5 shrink-0"
                     >
                       <Send size={12} />

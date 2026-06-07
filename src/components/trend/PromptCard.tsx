@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { Prompt } from '../../types';
 import { Card } from '../ui/card';
 import { useToast } from '../ui/toast';
+import { playSuccessSound } from '../../lib/sound';
 
 interface PromptCardProps {
   prompt: Partial<Prompt>;
@@ -18,12 +19,18 @@ export const PromptCard = ({ prompt }: PromptCardProps) => {
     if (!text) return;
     navigator.clipboard.writeText(text);
     setCopied(true);
+    playSuccessSound();
     toast.show(`Copied ${prompt.label || 'prompt'}!`);
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <Card hoverEffect={false} className="border border-border1 bg-surface2 rounded-xl overflow-hidden">
+    <Card 
+      hoverEffect={false} 
+      className={`border rounded-xl overflow-hidden bg-surface2 transition-all duration-300 ${
+        copied ? 'border-emerald-500/60 shadow-[0_0_20px_rgba(16,185,129,0.1)]' : 'border-border1'
+      }`}
+    >
       
       {/* Header Info */}
       <div className="flex items-center justify-between px-4 py-2.5 bg-surface1 border-b border-border1 text-xs">

@@ -37,7 +37,7 @@ export const CategoryCard = ({ category, animateEntry = true, delayIndex = 0 }: 
 
           {/* Texts */}
           <div className="space-y-2">
-            <h3 className="font-heading text-lg font-medium text-textPrimary leading-none group-hover:text-secondary transition-colors duration-300">
+            <h3 className="font-heading text-lg font-medium text-textPrimary leading-none group-hover:text-white transition-colors duration-300">
               {category.name}
             </h3>
             <p className="text-xs text-textSecondary leading-relaxed">

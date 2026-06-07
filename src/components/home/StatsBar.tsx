@@ -76,38 +76,38 @@ export const StatsBar = () => {
       label: 'AI Trends',
       value: stats.trends,
       suffix: '+',
-      icon: <Library className="text-primary" size={20} />,
+      icon: <Library className="text-[#ff7759]" size={20} />,
     },
     {
       label: 'Categories',
       value: stats.categories,
       suffix: '',
-      icon: <LayoutGrid className="text-secondary" size={20} />,
+      icon: <LayoutGrid className="text-[#ff7759]" size={20} />,
     },
     {
       label: 'Total Prompts',
       value: stats.prompts,
       suffix: '+',
-      icon: <Terminal className="text-success" size={20} />,
+      icon: <Terminal className="text-emerald-400" size={20} />,
     },
   ];
 
   return (
-    <div className="w-full py-4 border-y border-border1 bg-surface2/50 backdrop-blur-md relative z-10">
+    <div className="w-full py-4 border-y border-white/10 bg-[#07070d]/60 backdrop-blur-md relative z-10">
       <div className="w-full px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4">
         {statItems.map((item) => (
           <div 
             key={item.label}
-            className="flex items-center justify-center space-x-4 md:border-r last:border-r-0 border-border1"
+            className="flex items-center justify-center space-x-4 md:border-r last:border-r-0 border-white/10"
           >
-            <div className="p-3 bg-white border border-border1 rounded-2xl">
+            <div className="p-3 bg-white/5 border border-white/10 rounded-2xl">
               {item.icon}
             </div>
             <div className="text-left">
-              <div className="font-heading text-2xl md:text-3xl font-medium text-textPrimary leading-none mb-1">
+              <div className="font-heading text-2xl md:text-3xl font-medium text-white leading-none mb-1">
                 <Counter value={item.value} suffix={item.suffix} />
               </div>
-              <div className="text-[10px] text-textSecondary uppercase tracking-widest font-medium font-mono">
+              <div className="text-[10px] text-white/40 uppercase tracking-widest font-semibold font-mono">
                 {item.label}
               </div>
             </div>

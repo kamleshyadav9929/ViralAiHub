@@ -4,8 +4,8 @@
 
 @layer base {
   body {
-    background-color: #ffffff;
-    color: #212121;
+    background-color: #07070d;
+    color: #ffffff;
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
   }
@@ -17,10 +17,55 @@
   }
 }
 
+/* ============================================================
+   CURSOR SPOTLIGHT CARD EFFECT
+   --mx / --my are set by React onMouseMove handlers
+   ============================================================ */
+.trend-card-spotlight {
+  --mx: -999px;
+  --my: -999px;
+}
+
+.trend-card-glow {
+  background: radial-gradient(
+    280px circle at var(--mx) var(--my),
+    rgba(255, 119, 89, 0.10) 0%,
+    rgba(255, 200, 150, 0.06) 40%,
+    transparent 70%
+  );
+}
+
+/* ============================================================
+   SECTION SCROLL REVEAL
+   Apply .reveal-section to any section you want to slide up on enter
+   ============================================================ */
+@keyframes revealSection {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal-section {
+  animation: revealSection 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ============================================================
+   SHIMMER for skeleton loaders
+   ============================================================ */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(90deg, #f0eeeb 25%, #e8e6e3 50%, #f0eeeb 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
 /* Cohere Glassmorphism / Surface Styles */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.96); /* High opacity for smooth scrolling performance */
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .glass-panel-hover {
@@ -28,35 +73,35 @@
 }
 
 .glass-panel-hover:hover {
-  background: rgba(255, 255, 255, 0.9);
-  border-color: rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
 }
 
 /* Subtle border alignment matching Cohere's hairline dividers */
 .gradient-border-container {
   position: relative;
-  background: #eeece7; /* Soft stone */
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 0.75rem;
-  padding: 1px; /* Border thickness */
+  padding: 1px;
   z-index: 1;
   overflow: hidden;
   transition: all 250ms ease;
 }
 
 .gradient-border-container:hover {
-  background: #ff7759; /* Focus indicator (coral) */
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .gradient-border-content {
-  background: #ffffff;
+  background: #07070d;
   border-radius: calc(0.75rem - 1px);
   height: 100%;
 }
 
-/* Subtle Natural Wash Background instead of flashy purple animations */
+/* Subtle Natural Wash Background */
 .animated-mesh {
-  background: linear-gradient(135deg, #ffffff 0%, #eeece7 45%, #f1f5ff 75%, #ffffff 100%);
+  background: linear-gradient(135deg, #07070d 0%, #12121f 45%, #0d0d17 75%, #07070d 100%);
   background-size: 200% 200%;
   animation: meshAnimation 15s ease infinite;
 }
@@ -67,73 +112,58 @@
   100% { background-position: 0% 50%; }
 }
 
-/* Minimalist light-mode scrollbars */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
+/* Minimalist scrollbars */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #07070d; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
 
-::-webkit-scrollbar-track {
-  background: #f8f9fa;
-}
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-::-webkit-scrollbar-thumb {
-  background: #d9d9dd;
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #93939f;
-}
-
-/* Hide scrollbars for visual horizontal scroll sections */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-
-/* Monospace fonts for prompt blocks and labels */
+/* Monospace fonts */
 .monospace-code {
   font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
 }
 
-/* Unique Homepage Backgrounds */
 .bg-blueprint-grid {
-  background-image: radial-gradient(circle at center, transparent 0%, #ffffff 90%),
-                    linear-gradient(to right, rgba(23, 23, 28, 0.03) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(23, 23, 28, 0.03) 1px, transparent 1px);
+  background-color: #07070d;
+  background-image: radial-gradient(circle at center, transparent 0%, #07070d 95%),
+                    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
   background-size: 100% 100%, 32px 32px, 32px 32px;
 }
 
 .bg-embers-glow {
-  background-color: #faf9f6;
-  background-image: radial-gradient(circle at 10% 20%, rgba(255, 119, 89, 0.05) 0%, transparent 60%),
-                    radial-gradient(circle at 90% 80%, rgba(255, 119, 89, 0.04) 0%, transparent 60%);
+  background-color: #07070d;
+  background-image: radial-gradient(circle at 10% 20%, rgba(255, 119, 89, 0.06) 0%, transparent 60%),
+                    radial-gradient(circle at 90% 80%, rgba(110, 80, 230, 0.05) 0%, transparent 60%);
 }
 
 .bg-dot-matrix {
-  background-image: radial-gradient(circle at 85% 20%, rgba(99, 102, 241, 0.05) 0%, transparent 60%),
-                    radial-gradient(rgba(23, 23, 28, 0.05) 1.2px, transparent 1.2px);
+  background-color: #07070d;
+  background-image: radial-gradient(circle at 85% 20%, rgba(99, 102, 241, 0.06) 0%, transparent 60%),
+                    radial-gradient(rgba(255, 255, 255, 0.025) 1.2px, transparent 1.2px);
   background-size: 100% 100%, 20px 20px;
 }
 
 .bg-pinstripe-emerald {
-  background-color: #f8f9fa;
-  background-image: radial-gradient(circle at 15% 85%, rgba(16, 185, 129, 0.04) 0%, transparent 50%),
-                    linear-gradient(115deg, rgba(0, 0, 0, 0.01) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.01) 50%, rgba(0, 0, 0, 0.01) 75%, transparent 75%, transparent);
+  background-color: #07070d;
+  background-image: radial-gradient(circle at 15% 85%, rgba(16, 185, 129, 0.06) 0%, transparent 50%),
+                    linear-gradient(115deg, rgba(255, 255, 255, 0.005) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.005) 50%, rgba(255, 255, 255, 0.005) 75%, transparent 75%, transparent);
   background-size: 100% 100%, 40px 40px;
 }
 
 .bg-faq-lights {
-  background-image: radial-gradient(circle at 50% 0%, rgba(0, 0, 0, 0.02) 0%, transparent 70%),
-                    radial-gradient(circle at 0% 100%, rgba(245, 158, 11, 0.02) 0%, transparent 50%),
-                    radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.02) 0%, transparent 50%);
+  background-color: #07070d;
+  background-image: radial-gradient(circle at 50% 0%, rgba(255, 119, 89, 0.05) 0%, transparent 70%),
+                    radial-gradient(circle at 0% 100%, rgba(245, 158, 11, 0.04) 0%, transparent 50%),
+                    radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.04) 0%, transparent 50%);
 }
 
 .bg-newsletter-cosmic {
-  background-image: radial-gradient(circle at 50% 50%, rgba(255, 119, 89, 0.06) 0%, transparent 70%),
-                    radial-gradient(circle at 90% 10%, rgba(0, 60, 51, 0.04) 0%, transparent 60%);
+  background-color: #07070d;
+  background-image: radial-gradient(circle at 50% 50%, rgba(255, 119, 89, 0.08) 0%, transparent 70%),
+                    radial-gradient(circle at 90% 10%, rgba(0, 60, 51, 0.05) 0%, transparent 60%);
 }
+

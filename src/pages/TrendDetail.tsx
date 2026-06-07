@@ -12,6 +12,7 @@ import { Card } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { TrendDetailSkeleton } from '../components/ui/Skeletons';
 import { getToolInfo, getToolGradient } from '../lib/utils';
+import { playSuccessSound } from '../lib/sound';
 
 export const TrendDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -189,11 +190,11 @@ export const TrendDetail = () => {
                     href={info.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-between p-3 rounded-2xl bg-surface2 hover:bg-white border border-border1 hover:border-primary/20 hover:shadow-sm transition-all duration-300 text-xs font-semibold text-textSecondary hover:text-textPrimary group/tool"
+                    className="flex items-center justify-between p-3 rounded-2xl bg-surface2 hover:bg-white/10 border border-border1 hover:border-white/25 hover:shadow-sm transition-all duration-300 text-xs font-semibold text-textSecondary hover:text-textPrimary group/tool"
                   >
                     <div className="flex items-center space-x-3">
                       {/* Real icon wrapper */}
-                      <div className="w-8 h-8 rounded-xl bg-white border border-border1 flex items-center justify-center overflow-hidden p-1 shrink-0 shadow-sm group-hover/tool:border-primary/20 relative">
+                      <div className="w-8 h-8 rounded-xl bg-[#07070d]/50 border border-white/10 flex items-center justify-center overflow-hidden p-1 shrink-0 shadow-sm group-hover/tool:border-white/25 relative">
                         <img
                           src={`https://logo.clearbit.com/${info.domain}`}
                           alt={`${tool} logo`}
@@ -273,7 +274,7 @@ export const TrendDetail = () => {
                 Try this Prompt
               </h3>
               
-              <p className="text-[11px] text-textSecondary line-clamp-4 leading-relaxed monospace-code bg-white p-3 rounded-lg border border-border1">
+              <p className="text-[11px] text-textSecondary line-clamp-4 leading-relaxed monospace-code bg-[#07070d]/50 p-3 rounded-lg border border-white/5">
                 {trend.prompts?.[0]?.prompt_text || ''}
               </p>
 
@@ -282,10 +283,11 @@ export const TrendDetail = () => {
                   const text = trend.prompts?.[0]?.prompt_text || '';
                   if (text) {
                     navigator.clipboard.writeText(text);
+                    playSuccessSound();
                     dbService.incrementCopyCount(trend.id).catch(err => console.error(err));
                   }
                 }}
-                className="w-full flex items-center justify-center space-x-2 text-xs font-semibold py-2 rounded-full border border-secondary text-secondary hover:bg-secondary hover:text-white bg-transparent transition-all cursor-pointer"
+                className="w-full flex items-center justify-center space-x-2 text-xs font-semibold py-2 rounded-full border border-white/20 text-white hover:bg-white/10 hover:text-white bg-transparent transition-all cursor-pointer"
               >
                 <span>Quick Copy Main Prompt</span>
                 <ArrowRight size={12} />

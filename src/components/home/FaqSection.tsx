@@ -11,16 +11,16 @@ const FaqItem = ({ question, answer }: FaqItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="bg-white rounded-[20px] border border-[#eeece7] overflow-hidden transition-all duration-300 hover:border-[#d9d9dd]">
+    <div className="bg-white/[0.03] backdrop-blur-md rounded-[20px] border border-white/10 overflow-hidden transition-all duration-300 hover:border-white/25 hover:shadow-[0_10px_25px_rgba(255,255,255,0.02)]">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-6 py-5 flex items-center justify-between text-left font-heading font-medium text-sm sm:text-base text-[#212121] hover:bg-[#faf9f6] transition-colors focus:outline-none cursor-pointer"
+        className="w-full px-6 py-5 flex items-center justify-between text-left font-heading font-medium text-sm sm:text-base text-white hover:bg-white/5 transition-colors focus:outline-none cursor-pointer"
       >
         <span className="pr-4">{question}</span>
         <motion.span
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.25, ease: 'easeInOut' }}
-          className="text-[#93939f] shrink-0"
+          className="text-white/40 shrink-0"
         >
           <ChevronDown size={18} />
         </motion.span>
@@ -48,7 +48,7 @@ const FaqItem = ({ question, answer }: FaqItemProps) => {
             }}
             className="overflow-hidden"
           >
-            <div className="px-6 pb-5 text-xs sm:text-sm text-[#616161] leading-relaxed font-light border-t border-[#f2f2f2] pt-4 bg-[#faf9f6]">
+            <div className="px-6 pb-5 text-xs sm:text-sm text-white/70 leading-relaxed font-light border-t border-white/5 pt-4 bg-white/[0.01]">
               {answer}
             </div>
           </motion.div>
@@ -86,13 +86,13 @@ export const FaqSection = () => {
     <section className="w-full py-12 max-w-3xl mx-auto space-y-8 relative z-10">
       {/* Header */}
       <div className="text-center space-y-2">
-        <div className="inline-flex p-2.5 bg-[#f0eee7] border border-[#d9d9dd] rounded-xl text-[#212121] mb-2">
+        <div className="inline-flex p-2.5 bg-white/5 border border-white/10 rounded-xl text-white mb-2">
           <HelpCircle size={18} />
         </div>
-        <h2 className="text-2xl sm:text-3xl font-heading font-medium text-[#212121]">
+        <h2 className="text-2xl sm:text-3xl font-heading font-medium text-white">
           Frequently Asked Questions
         </h2>
-        <p className="text-xs sm:text-sm text-[#616161] font-light max-w-md mx-auto">
+        <p className="text-xs sm:text-sm text-white/40 font-light max-w-md mx-auto">
           Everything you need to know about replicating viral AI workflows.
         </p>
       </div>

@@ -52,7 +52,7 @@ export const ResourceCard = ({ youtubeVideoId, articles, tools = [] }: ResourceC
               >
                 <Card className="p-4 bg-surface2 hover:bg-surface1 transition-all border border-border1 rounded-xl flex items-center justify-between">
                   <div className="space-y-1 pr-4">
-                    <div className="text-xs font-semibold text-textPrimary line-clamp-1 group-hover:text-secondary transition-colors duration-300">
+                    <div className="text-xs font-semibold text-textPrimary line-clamp-1 group-hover:text-white transition-colors duration-300">
                       {art.title || ''}
                     </div>
                     {art.source_name && (

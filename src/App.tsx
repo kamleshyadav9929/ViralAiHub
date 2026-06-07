@@ -14,6 +14,19 @@ import Home from './pages/Home';
 import TrendDetail from './pages/TrendDetail';
 import Category from './pages/Category';
 import Search from './pages/Search';
+import About from './pages/About';
+import Brand from './pages/Brand';
+import Contact from './pages/Contact';
+import Community from './pages/Community';
+import FaqPage from './pages/FaqPage';
+import SubmitTrend from './pages/SubmitTrend';
+
+// Admin Pages
+import Login from './pages/admin/Login';
+import Dashboard from './pages/admin/Dashboard';
+import TrendsList from './pages/admin/TrendsList';
+import TrendForm from './pages/admin/TrendForm';
+import ProtectedRoute from './components/admin/ProtectedRoute';
 
 // Page Transition Wrapper
 const AnimatedPage = ({ children }: { children: React.ReactNode }) => {
@@ -69,6 +82,114 @@ const RouteAnimator = () => {
             <AnimatedPage>
               <Search />
             </AnimatedPage>
+          } 
+        />
+        <Route 
+          path="/about" 
+          element={
+            <AnimatedPage>
+              <About />
+            </AnimatedPage>
+          } 
+        />
+        <Route 
+          path="/brand" 
+          element={
+            <AnimatedPage>
+              <Brand />
+            </AnimatedPage>
+          } 
+        />
+        <Route 
+          path="/contact" 
+          element={
+            <AnimatedPage>
+              <Contact />
+            </AnimatedPage>
+          } 
+        />
+        <Route 
+          path="/community" 
+          element={
+            <AnimatedPage>
+              <Community />
+            </AnimatedPage>
+          } 
+        />
+        <Route 
+          path="/faq" 
+          element={
+            <AnimatedPage>
+              <FaqPage />
+            </AnimatedPage>
+          } 
+        />
+        <Route 
+          path="/submit" 
+          element={
+            <AnimatedPage>
+              <SubmitTrend />
+            </AnimatedPage>
+          } 
+        />
+
+        {/* Admin Portal Routes */}
+        <Route 
+          path="/admin/login" 
+          element={
+            <AnimatedPage>
+              <Login />
+            </AnimatedPage>
+          } 
+        />
+        <Route 
+          path="/admin/dashboard" 
+          element={
+            <ProtectedRoute>
+              <AnimatedPage>
+                <Dashboard />
+              </AnimatedPage>
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/admin" 
+          element={
+            <ProtectedRoute>
+              <AnimatedPage>
+                <Dashboard />
+              </AnimatedPage>
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/admin/trends" 
+          element={
+            <ProtectedRoute>
+              <AnimatedPage>
+                <TrendsList />
+              </AnimatedPage>
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/admin/trends/new" 
+          element={
+            <ProtectedRoute>
+              <AnimatedPage>
+                <TrendForm />
+              </AnimatedPage>
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/admin/trends/edit/:id" 
+          element={
+            <ProtectedRoute>
+              <AnimatedPage>
+                <TrendForm />
+              </AnimatedPage>
+            </ProtectedRoute>
           } 
         />
 

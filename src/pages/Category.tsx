@@ -102,12 +102,12 @@ export const Category = () => {
         </Link>
 
         {/* Category Hero Banner */}
-        <div className="relative w-full p-8 md:p-12 rounded-3xl glass-panel border border-border1 overflow-hidden bg-white">
+        <div className="relative w-full p-8 md:p-12 rounded-3xl glass-panel border border-white/10 overflow-hidden bg-white/[0.03] backdrop-blur-md">
           {/* Decorative nodes */}
           <div className="absolute -top-10 -right-10 w-48 h-48 bg-primary/10 rounded-full blur-[60px]" />
           
           <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-6">
-            <div className="w-16 h-16 rounded-2xl bg-primary text-white flex items-center justify-center shrink-0">
+            <div className="w-16 h-16 rounded-2xl bg-[#ff7759] text-white flex items-center justify-center shrink-0 shadow-sm">
               <CategoryIcon iconName={category.icon} size={28} />
             </div>
             <div className="space-y-2">

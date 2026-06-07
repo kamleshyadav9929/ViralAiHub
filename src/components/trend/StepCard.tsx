@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { Step, Prompt } from '../../types';
 import { Card } from '../ui/card';
 import { dbService } from '../../services/db';
+import { playSuccessSound } from '../../lib/sound';
 
 interface EditablePromptBlockProps {
   prompt: Partial<Prompt>;
@@ -17,6 +18,7 @@ const EditablePromptBlock = ({ prompt }: EditablePromptBlockProps) => {
     if (!text) return;
     navigator.clipboard.writeText(text);
     setCopied(true);
+    playSuccessSound();
     setTimeout(() => setCopied(false), 2000);
     
     if (prompt.trend_id) {
@@ -25,16 +27,18 @@ const EditablePromptBlock = ({ prompt }: EditablePromptBlockProps) => {
   };
 
   return (
-    <div className="border border-border1 bg-surface1 rounded-xl overflow-hidden mt-3">
+    <div className={`border rounded-xl overflow-hidden mt-3 bg-surface1 transition-all duration-300 ${
+      copied ? 'border-emerald-500/60 shadow-[0_0_20px_rgba(16,185,129,0.1)]' : 'border-border1'
+    }`}>
       {/* Header Info */}
       <div className="flex items-center justify-between px-4 py-2 bg-surface2 border-b border-border1 text-xs select-none">
         <div className="flex items-center space-x-2 text-textSecondary">
-          <Terminal size={12} className="text-secondary" />
-          <span className="font-semibold text-textPrimary">{prompt.label}</span>
+          <Terminal size={12} className="text-[#ff7759]" />
+          <span className="font-semibold text-white">{prompt.label}</span>
           {prompt.tool_name && (
             <>
-              <span className="text-textMuted">•</span>
-              <span className="bg-white border border-border1 px-2 py-0.5 rounded text-[10px] text-textPrimary font-medium">
+              <span className="text-white/40">•</span>
+              <span className="bg-white/10 border border-white/10 px-2 py-0.5 rounded text-[10px] text-white font-medium">
                 {prompt.tool_name}
               </span>
             </>
@@ -77,17 +81,17 @@ const EditablePromptBlock = ({ prompt }: EditablePromptBlockProps) => {
       </div>
 
       {/* Code Text Area */}
-      <div className="p-3 bg-white">
+      <div className="p-3 bg-[#07070d]/50">
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
           rows={Math.max(2, Math.min(8, text.split('\n').length))}
-          className="w-full text-xs md:text-sm font-mono text-textPrimary bg-transparent border-0 outline-none resize-y focus:ring-0 leading-relaxed font-light"
+          className="w-full text-xs md:text-sm font-mono text-white bg-transparent border-0 outline-none resize-y focus:ring-0 leading-relaxed font-light"
           placeholder="Customize prompt text here..."
         />
-        <div className="text-[10px] text-textMuted mt-1.5 flex justify-between items-center select-none border-t border-border1/30 pt-1.5">
+        <div className="text-[10px] text-white/40 mt-1.5 flex justify-between items-center select-none border-t border-white/5 pt-1.5">
           <span>Edit this prompt above before copying</span>
-          <span className="font-mono text-textMuted">{text.length} chars</span>
+          <span className="font-mono text-white/40">{text.length} chars</span>
         </div>
       </div>
     </div>

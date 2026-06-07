@@ -24,7 +24,7 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="w-full bg-primary border-t border-border1 py-12 pb-24 md:pb-12 text-white/70 text-sm mt-auto relative z-10">
+    <footer className="w-full bg-darkbg border-t border-border1 py-12 pb-24 md:pb-12 text-white/70 text-sm mt-auto relative z-10">
       <div className="w-full px-6 md:px-12 grid grid-cols-1 md:grid-cols-4 gap-8">
         
         {/* Info Column */}

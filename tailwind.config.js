@@ -7,24 +7,24 @@ export default {
   theme: {
     extend: {
       colors: {
-        darkbg: '#ffffff', // Stark canvas background
-        surface1: '#eeece7', // Soft stone warm surface
-        surface2: '#f8f9fa', // Pale cool grey
-        surface3: '#edfce9', // Pale green wash
-        border1: '#d9d9dd', // Hairline divider
-        border2: 'rgba(0, 0, 0, 0.08)', // Soft dark boundary
+        darkbg: '#07070d', // Dark canvas background
+        surface1: 'rgba(255, 255, 255, 0.05)', // Translucent dark surface
+        surface2: 'rgba(255, 255, 255, 0.02)', // Translucent pale dark surface
+        surface3: 'rgba(255, 255, 255, 0.08)', // High-contrast translucent surface
+        border1: 'rgba(255, 255, 255, 0.1)', // Subtle white divider
+        border2: 'rgba(255, 255, 255, 0.06)', // Softest dark boundary
         primary: {
-          DEFAULT: '#17171c', // Cohere near-black primary
-          hover: '#000000',
+          DEFAULT: '#ffffff', // White primary text/accent in dark theme
+          hover: '#f2f2f2',
         },
         secondary: {
           DEFAULT: '#ff7759', // Cohere coral accent
           hover: '#e65f40',
         },
-        success: '#003c33', // Deep enterprise green
-        textPrimary: '#212121', // Dark ink text
-        textSecondary: '#616161', // Body muted grey
-        textMuted: '#93939f', // Light muted label
+        success: '#10b981', // Glowing emerald green
+        textPrimary: '#ffffff', // Light ink text
+        textSecondary: 'rgba(255, 255, 255, 0.65)', // Body muted grey
+        textMuted: 'rgba(255, 255, 255, 0.4)', // Light muted label
         
         // Direct Cohere Color Tokens
         cohereBlack: '#000000',
