@@ -104,40 +104,40 @@ export const Home = () => {
 
       <div ref={exploreRef} className="w-full">
         {/* Section 2: Trending Now */}
-        <motion.section
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="min-h-screen flex flex-col justify-center py-24 px-6 md:px-12 border-b border-border2 bg-embers-glow"
-        >
-          <div className="max-w-[1400px] mx-auto w-full">
+        <section className="min-h-screen flex flex-col justify-center py-24 px-6 md:px-12 border-b border-border2 bg-embers-glow">
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-[1400px] mx-auto w-full transform-gpu"
+          >
             {allLoading ? <FeaturedTrendsSkeleton /> : <FeaturedTrends trends={allTrends} />}
-          </div>
-        </motion.section>
+          </motion.div>
+        </section>
 
         {/* Section 3: Browse Prompts by Tools */}
-        <motion.section
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="min-h-screen flex flex-col justify-center py-24 px-6 md:px-12 border-b border-border2 bg-dot-matrix"
-        >
-          <div className="max-w-[1400px] mx-auto w-full">
+        <section className="min-h-screen flex flex-col justify-center py-24 px-6 md:px-12 border-b border-border2 bg-dot-matrix">
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-[1400px] mx-auto w-full transform-gpu"
+          >
             <PromptsByTools />
-          </div>
-        </motion.section>
+          </motion.div>
+        </section>
 
         {/* Section 4: Latest AI Trends (Filter & Grid) */}
-        <motion.section
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.05 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="min-h-screen flex flex-col justify-start py-24 px-6 md:px-12 border-b border-border2 bg-pinstripe-emerald"
-        >
-          <div className="max-w-[1400px] mx-auto w-full space-y-8">
+        <section className="min-h-screen flex flex-col justify-start py-24 px-6 md:px-12 border-b border-border2 bg-pinstripe-emerald">
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.05 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-[1400px] mx-auto w-full space-y-8 transform-gpu"
+          >
             {/* Category Filter Bar */}
             <div className="py-3 border-b border-white/10">
               <div className="flex items-center gap-3">
@@ -179,21 +179,21 @@ export const Home = () => {
             ) : (
               <LatestGrid trends={trends} />
             )}
-          </div>
-        </motion.section>
+          </motion.div>
+        </section>
 
         {/* Section 5: FAQ */}
-        <motion.section
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="min-h-screen flex flex-col justify-center py-24 px-6 md:px-12 border-b border-border2 bg-faq-lights"
-        >
-          <div className="max-w-[1400px] mx-auto w-full">
+        <section className="min-h-screen flex flex-col justify-center py-24 px-6 md:px-12 border-b border-border2 bg-faq-lights">
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-[1400px] mx-auto w-full transform-gpu"
+          >
             <FaqSection />
-          </div>
-        </motion.section>
+          </motion.div>
+        </section>
 
         {/* Section 6: Newsletter Subscription */}
         <section className="min-h-screen flex flex-col justify-center py-24 px-6 md:px-12 bg-newsletter-cosmic">

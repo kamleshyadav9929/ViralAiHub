@@ -68,16 +68,13 @@ export const PromptsByTools = () => {
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-4 gap-y-7">
         {tools.map((tool) => {
           const info = getToolInfo(tool.name);
-          const [imgSrc, setImgSrc] = React.useState(`https://logo.clearbit.com/${info.domain}`);
-          const [imgFallbackLevel, setImgFallbackLevel] = React.useState(0); // 0 = Clearbit, 1 = Google Favicon, 2 = Gradient Initials
+          const [imgFallbackLevel, setImgFallbackLevel] = React.useState(0); // 0 = Google Favicon, 1 = Gradient Initials
+          const imgSrc = `https://www.google.com/s2/favicons?sz=64&domain=${info.domain}`;
           const CategoryIcon = tool.icon;
 
           const handleImgError = () => {
             if (imgFallbackLevel === 0) {
               setImgFallbackLevel(1);
-              setImgSrc(`https://www.google.com/s2/favicons?sz=64&domain=${info.domain}`);
-            } else if (imgFallbackLevel === 1) {
-              setImgFallbackLevel(2);
             }
           };
 
@@ -105,7 +102,7 @@ export const PromptsByTools = () => {
                 <div className="flex items-center justify-between">
                   {/* Tool Logo */}
                   <div className="w-9 h-9 rounded-xl overflow-hidden border border-white/10 flex items-center justify-center p-1 bg-[#07070d]/50 shadow-sm shrink-0">
-                    {imgFallbackLevel < 2 ? (
+                    {imgFallbackLevel < 1 ? (
                       <img
                         src={imgSrc}
                         alt={`${tool.name} Logo`}

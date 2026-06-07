@@ -196,18 +196,14 @@ export const TrendDetail = () => {
                       {/* Real icon wrapper */}
                       <div className="w-8 h-8 rounded-xl bg-[#07070d]/50 border border-white/10 flex items-center justify-center overflow-hidden p-1 shrink-0 shadow-sm group-hover/tool:border-white/25 relative">
                         <img
-                          src={`https://logo.clearbit.com/${info.domain}`}
+                          src={`https://www.google.com/s2/favicons?domain=${info.domain}&sz=64`}
                           alt={`${tool} logo`}
                           className="w-full h-full object-contain"
                           onError={(e) => {
                             const img = e.currentTarget;
-                            if (img.src.includes('clearbit.com')) {
-                              img.src = `https://www.google.com/s2/favicons?domain=${info.domain}&sz=64`;
-                            } else {
-                              img.style.display = 'none';
-                              const fallback = img.parentElement?.querySelector('.fallback');
-                              if (fallback) fallback.classList.remove('hidden');
-                            }
+                            img.style.display = 'none';
+                            const fallback = img.parentElement?.querySelector('.fallback');
+                            if (fallback) fallback.classList.remove('hidden');
                           }}
                         />
                         <span className={`fallback hidden absolute inset-0 flex items-center justify-center text-[10px] font-bold ${gradient}`}>

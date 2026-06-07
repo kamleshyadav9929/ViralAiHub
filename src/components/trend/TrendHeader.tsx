@@ -138,16 +138,12 @@ export const TrendHeader = ({ trend }: TrendHeaderProps) => {
                 <span key={tool} className="inline-flex items-center gap-1.5 text-xs bg-surface2 border border-border1 text-textSecondary px-3 py-1 rounded-full font-medium">
                   <span className="w-3.5 h-3.5 rounded-full bg-white border border-border1 flex items-center justify-center overflow-hidden p-0.5 shrink-0 shadow-sm">
                     <img
-                      src={`https://logo.clearbit.com/${info.domain}`}
+                      src={`https://www.google.com/s2/favicons?domain=${info.domain}&sz=32`}
                       alt=""
                       className="w-full h-full object-contain"
                       onError={(e) => {
                         const img = e.currentTarget;
-                        if (img.src.includes('clearbit.com')) {
-                          img.src = `https://www.google.com/s2/favicons?domain=${info.domain}&sz=32`;
-                        } else {
-                          img.style.display = 'none';
-                        }
+                        img.style.display = 'none';
                       }}
                     />
                   </span>

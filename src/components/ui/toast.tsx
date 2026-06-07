@@ -49,15 +49,15 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
               transition={{ duration: 0.2 }}
-              className="pointer-events-auto flex items-center space-x-3 px-4 py-3 bg-white border border-border1 text-textPrimary rounded-full min-w-[200px] max-w-sm justify-between"
+              className="pointer-events-auto flex items-center space-x-3 px-5 py-3.5 bg-[#0c0c14] border border-white/15 text-white rounded-full min-w-[220px] max-w-md justify-between shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-md"
             >
               <div className="flex items-center space-x-3">
                 {toast.type === 'success' ? (
-                  <div className="bg-emerald-100 text-emerald-800 p-1.5 rounded-full">
+                  <div className="bg-emerald-500/10 text-emerald-400 p-1.5 rounded-full border border-emerald-500/20 flex-shrink-0">
                     <Check size={14} className="stroke-[3px]" />
                   </div>
                 ) : (
-                  <div className="bg-secondary/10 text-secondary p-1.5 rounded-full">
+                  <div className="bg-[#ff7759]/10 text-[#ff7759] p-1.5 rounded-full border border-[#ff7759]/20 flex-shrink-0">
                     <Info size={14} />
                   </div>
                 )}

@@ -91,18 +91,14 @@ export const ResourceCard = ({ youtubeVideoId, articles, tools = [] }: ResourceC
                 >
                   <div className="w-5 h-5 rounded-md bg-white border border-border1 flex items-center justify-center overflow-hidden p-0.5 shrink-0 shadow-sm relative">
                     <img
-                      src={`https://logo.clearbit.com/${info.domain}`}
+                      src={`https://www.google.com/s2/favicons?domain=${info.domain}&sz=32`}
                       alt={`${tool} logo`}
                       className="w-full h-full object-contain"
                       onError={(e) => {
                         const img = e.currentTarget;
-                        if (img.src.includes('clearbit.com')) {
-                          img.src = `https://www.google.com/s2/favicons?domain=${info.domain}&sz=32`;
-                        } else {
-                          img.style.display = 'none';
-                          const fallback = img.parentElement?.querySelector('.fallback');
-                          if (fallback) fallback.classList.remove('hidden');
-                        }
+                        img.style.display = 'none';
+                        const fallback = img.parentElement?.querySelector('.fallback');
+                        if (fallback) fallback.classList.remove('hidden');
                       }}
                     />
                     <span className={`fallback hidden absolute inset-0 flex items-center justify-center text-[8px] font-bold ${gradient}`}>
