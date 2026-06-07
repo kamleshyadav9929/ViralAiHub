@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Compass, Search, ChevronDown, Video, Image, Music, Mic, User, Layers, HelpCircle, Users, Globe, ShieldCheck, Mail } from 'lucide-react';
+import { Compass, Search, ChevronDown, Video, Image, Music, Mic, User, Layers, HelpCircle, Users, Globe, ShieldCheck, Mail } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../../lib/utils';
 import { Button } from '../ui/button';
@@ -29,12 +29,7 @@ export const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const isActive = (path: string) => {
-    if (path === '/admin') {
-      return location.pathname.startsWith('/admin');
-    }
-    return location.pathname === path;
-  };
+
 
   const navItems = [
     { name: 'Categories', index: 0 },
@@ -64,11 +59,7 @@ export const Navbar = () => {
     { name: 'Contact Us', path: '/contact', desc: 'Get in touch for custom workflows', icon: Mail, color: 'text-slate-600 bg-slate-100/80 border border-border1/30', hex: 'rgb(239, 68, 68)' },
   ];
 
-  const mobileNavItems = [
-    { name: 'Home', path: '/', icon: Home },
-    { name: 'Search', path: '/search', icon: Search },
-    { name: 'Explore', path: '/category/ai-video', icon: Compass },
-  ];
+
 
   return (
     <>
@@ -86,7 +77,7 @@ export const Navbar = () => {
             showNavbar ? "pointer-events-auto" : "pointer-events-none",
             isDarkTheme
               ? "bg-transparent border-b border-transparent"
-              : "bg-white/90 backdrop-blur-md border-b border-border1/80 shadow-[0_1px_3px_rgba(0,0,0,0.05)]"
+              : "bg-darkbg/85 backdrop-blur-md border-b border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)]"
           )}
         >
           <div className="w-full px-6 flex items-center justify-between h-full">
@@ -294,47 +285,7 @@ export const Navbar = () => {
         </motion.header>
       </div>
 
-      {/* Mobile Bottom Navigation Bar */}
-      <motion.nav 
-        initial={{ y: 0, opacity: 1 }}
-        animate={{ 
-          y: showNavbar ? 0 : 80, 
-          opacity: showNavbar ? 1 : 0 
-        }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-        className={cn(
-          "block md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 border-t border-border1 backdrop-blur-lg px-4 py-2.5 shadow-lg select-none",
-          showNavbar ? "pointer-events-auto" : "pointer-events-none"
-        )}
-      >
-        <div className="flex justify-around items-center relative h-10">
-          {mobileNavItems.map((item) => {
-            const active = item.path === '/category/ai-video' 
-              ? location.pathname.startsWith('/category')
-              : isActive(item.path);
 
-            return (
-              <Link 
-                key={item.name}
-                to={item.path} 
-                className="flex flex-col items-center justify-center flex-1 h-full relative group"
-              >
-                {active && (
-                  <motion.div
-                    layoutId="mobileActiveIndicator"
-                    className="absolute top-0 w-10 h-0.5 bg-primary rounded-full"
-                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                  />
-                )}
-                <item.icon size={18} className={cn("transition-colors duration-200 mt-1", active ? "text-primary" : "text-textSecondary")} />
-                <span className={cn("text-[9px] font-semibold transition-colors duration-200", active ? "text-primary font-bold" : "text-textMuted")}>
-                  {item.name}
-                </span>
-              </Link>
-            );
-          })}
-        </div>
-      </motion.nav>
     </>
   );
 };
