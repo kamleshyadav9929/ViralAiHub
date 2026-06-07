@@ -13,7 +13,7 @@ export const Navbar = () => {
 
   const isHomePage = location.pathname === '/';
   const isDarkTheme = isHomePage && !isScrolled;
-  const showNavbar = isHomePage && !isScrolled;
+  const showNavbar = true;
 
   const handleMenuHover = (index: number) => {
     setHoveredMenuIndex(index);

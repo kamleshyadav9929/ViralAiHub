@@ -21,7 +21,7 @@ export const TrendCard = ({ trend, animateEntry = true, delayIndex = 0 }: TrendC
 
   return (
     <div
-      className={`w-full max-w-[290px] sm:max-w-[320px] md:max-w-[350px] bg-[#11111a] rounded-[28px] border border-white/10 overflow-hidden transition-all duration-300 relative flex flex-col hover:border-white/25 hover:shadow-[0_15px_40px_rgba(255,255,255,0.02)] ${animateEntry ? 'animate-fade-in opacity-0' : ''
+      className={`w-full max-w-[340px] sm:max-w-[320px] md:max-w-[350px] mx-auto bg-[#11111a] rounded-[28px] border border-white/10 overflow-hidden transition-all duration-300 relative flex flex-col hover:border-white/25 hover:shadow-[0_15px_40px_rgba(255,255,255,0.02)] ${animateEntry ? 'animate-fade-in opacity-0' : ''
         }`}
       style={{
         animationDelay: `${delayIndex * 0.05}s`

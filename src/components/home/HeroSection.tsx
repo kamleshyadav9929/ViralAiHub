@@ -186,12 +186,11 @@ export const HeroSection = ({ onExploreClick }: HeroSectionProps) => {
         </motion.div>
       </div>
 
-      {/* ── Floating preview cards ── */}
       <div className="relative z-10 mt-28 sm:mt-32 flex items-end justify-center gap-3 sm:gap-5 px-6 w-full max-w-2xl mx-auto">
         {PREVIEW_CARDS.map((card, i) => (
           <motion.div
             key={i}
-            className="flex-1 min-w-0"
+            className={`flex-1 min-w-0 ${i !== 1 ? 'hidden sm:block' : ''} max-w-[280px] sm:max-w-none mx-auto`}
             initial={{ opacity: 0, y: 50, rotate: card.rotate }}
             animate={{ opacity: 1, y: 0, rotate: card.rotate }}
             transition={{ duration: 0.7, delay: 0.55 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
