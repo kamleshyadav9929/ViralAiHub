@@ -41,15 +41,13 @@ export const Login = () => {
       </Helmet>
 
       <div className="min-h-[70vh] flex items-center justify-center py-12 px-4 relative">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-primary/15 rounded-full blur-[80px] pointer-events-none" />
-        
-        <Card hoverEffect={false} className="w-full max-w-md border border-border1 z-10 bg-white">
+        <Card hoverEffect={false} className="w-full max-w-md z-10">
           <CardHeader className="text-center space-y-2">
-            <div className="mx-auto bg-primary p-3 rounded-full w-12 h-12 flex items-center justify-center text-white mb-2">
+            <div className="mx-auto bg-white/5 border border-white/10 p-3 rounded-full w-12 h-12 flex items-center justify-center text-secondary mb-2">
               <Lock size={20} />
             </div>
             
-            <CardTitle className="text-2xl font-heading font-extrabold text-textPrimary">
+            <CardTitle className="text-2xl font-heading font-extrabold text-white">
               Admin Portal Login
             </CardTitle>
             
@@ -84,7 +82,7 @@ export const Login = () => {
                     placeholder="admin@viralaihub.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-white border border-border1 rounded-full pl-10 pr-4 py-2 text-xs text-textPrimary focus:outline-none focus:border-primary transition-colors"
+                    className="w-full bg-white/5 border border-white/10 rounded-full pl-10 pr-4 py-2.5 text-xs text-white placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-colors"
                   />
                 </div>
               </div>
@@ -105,7 +103,7 @@ export const Login = () => {
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-white border border-border1 rounded-full pl-10 pr-4 py-2 text-xs text-textPrimary focus:outline-none focus:border-primary transition-colors"
+                    className="w-full bg-white/5 border border-white/10 rounded-full pl-10 pr-4 py-2.5 text-xs text-white placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-colors"
                   />
                 </div>
               </div>
@@ -114,15 +112,15 @@ export const Login = () => {
               <Button
                 type="submit"
                 disabled={loading}
-                variant="default"
-                className="w-full h-10 mt-2 font-bold text-xs"
+                variant="premium"
+                className="w-full h-11 mt-2 font-bold text-xs"
               >
                 {loading ? 'Authenticating...' : 'Sign In'}
               </Button>
             </form>
 
             {/* Test Instructions Box */}
-            <div className="mt-6 p-4 rounded-xl border border-border1 bg-surface1 text-[11px] text-textSecondary space-y-1">
+            <div className="mt-6 p-4 rounded-2xl border border-white/10 bg-white/[0.01] text-[11px] text-textSecondary space-y-1">
               <div className="flex items-center space-x-1.5 text-secondary font-bold">
                 <Sparkles size={12} className="animate-pulse" />
                 <span>Local Sandbox Mode Enabled</span>
@@ -130,7 +128,7 @@ export const Login = () => {
               <p className="text-textMuted leading-relaxed">
                 If Supabase Auth is not configured, log in with:
               </p>
-              <div className="monospace-code text-textPrimary mt-1.5 p-2 bg-surface2 rounded border border-border1 flex flex-col space-y-0.5 select-all">
+              <div className="monospace-code text-white mt-1.5 p-2.5 bg-white/5 rounded-xl border border-white/10 flex flex-col space-y-0.5 select-all">
                 <span>Email: admin@viralaihub.com</span>
                 <span>Pass: admin123</span>
               </div>

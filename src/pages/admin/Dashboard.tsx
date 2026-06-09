@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Library, Eye, Terminal, Plus, LogOut, Settings, ListCollapse, List, ArrowRight } from 'lucide-react';
+import { Library, Eye, Terminal, Plus, LogOut, Settings, ListCollapse, List, ArrowRight, Globe } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { dbService } from '../../services/db';
 import type { AdminStats } from '../../types';
@@ -74,7 +74,7 @@ export const Dashboard = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
-      <div className="space-y-8 px-6 md:px-12 py-6">
+      <div className="space-y-8 px-6 md:px-12 py-6 pt-24">
         
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-6">
@@ -129,8 +129,15 @@ export const Dashboard = () => {
             </h3>
 
             <div className="flex flex-col space-y-3">
-              <Link to="/admin/trends/new">
+              <Link to="/admin/scrape">
                 <Button className="w-full flex items-center justify-start gap-2.5 h-12 text-xs font-bold pl-5">
+                  <Globe size={16} />
+                  <span>Scrape with Firecrawl</span>
+                </Button>
+              </Link>
+
+              <Link to="/admin/trends/new">
+                <Button variant="secondary" className="w-full flex items-center justify-start gap-2.5 h-12 text-xs font-bold pl-5">
                   <Plus size={16} />
                   <span>Create Trend Guide</span>
                 </Button>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams, Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, Plus, Trash2, Save, Check, ChevronRight } from 'lucide-react';
 import { dbService } from '../../services/db';
@@ -13,6 +13,7 @@ import { useToast } from '../../components/ui/toast';
 export const TrendForm = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   const toast = useToast();
   const { createTrend, updateTrend, actionLoading } = useTrendActions();
 
@@ -51,7 +52,9 @@ export const TrendForm = () => {
       try {
         const cats = await dbService.getCategories();
         setCategories(cats);
-        if (cats.length > 0) setCategoryId(cats[0].id);
+
+        // Check if there is prefilled data from scrape redirect
+        const prefilled = location.state?.prefilledData;
 
         if (id) {
           // Fetch trend details
@@ -96,6 +99,56 @@ export const TrendForm = () => {
               }
             }
           }
+        } else if (prefilled) {
+          // Prefill from scrape data
+          setTitle(prefilled.title || '');
+          setSlug(
+            (prefilled.title || '')
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, '-')
+              .replace(/(^-|-$)+/g, '')
+          );
+          setShortDescription(prefilled.short_description || '');
+          
+          // Match category
+          const matched = cats.find(
+            c => c.name.toLowerCase() === prefilled.category_name?.toLowerCase()
+          );
+          if (matched) {
+            setCategoryId(matched.id);
+          } else if (cats.length > 0) {
+            setCategoryId(cats[0].id);
+          }
+
+          setToolsInput(prefilled.tools?.join(', ') || '');
+          setDifficulty(prefilled.difficulty || 'Beginner');
+          
+          if (prefilled.steps && prefilled.steps.length > 0) {
+            setSteps(prefilled.steps.map((s: any) => ({
+              title: s.title || '',
+              description: s.description || '',
+              tip: s.tip || '',
+              warning: s.warning || ''
+            })));
+          }
+          
+          if (prefilled.prompts && prefilled.prompts.length > 0) {
+            setPrompts(prefilled.prompts.map((p: any) => ({
+              label: p.label || '',
+              prompt_text: p.prompt_text || '',
+              tool_name: p.tool_name || ''
+            })));
+          }
+          
+          if (prefilled.articles && prefilled.articles.length > 0) {
+            setArticles(prefilled.articles.map((a: any) => ({
+              title: a.title || '',
+              url: a.url || '',
+              source_name: a.source_name || ''
+            })));
+          }
+        } else {
+          if (cats.length > 0) setCategoryId(cats[0].id);
         }
       } catch (err) {
         console.error(err);
@@ -103,7 +156,7 @@ export const TrendForm = () => {
       }
     }
     loadData();
-  }, [id]);
+  }, [id, location.state]);
 
   // Auto-generate slug from title
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -233,7 +286,7 @@ export const TrendForm = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
-      <div className="space-y-8 px-6 md:px-12 py-6">
+      <div className="space-y-8 px-6 md:px-12 py-6 pt-24">
         
         {/* Back Link */}
         <div className="flex items-center justify-between border-b border-white/5 pb-4">
@@ -269,7 +322,7 @@ export const TrendForm = () => {
               onClick={() => setActiveFormTab(tab.id)}
               className={`flex-1 text-center py-2 text-xs font-bold rounded-full transition-colors cursor-pointer ${
                 activeFormTab === tab.id
-                  ? 'bg-primary text-white'
+                  ? 'bg-primary text-[#07070d]'
                   : 'text-textSecondary hover:text-textPrimary'
               }`}
             >
@@ -283,7 +336,7 @@ export const TrendForm = () => {
           
           {/* TAB A: BASIC INFO */}
           {activeFormTab === 'basic' && (
-            <Card hoverEffect={false} className="p-6 space-y-5 bg-white border border-border1">
+            <Card hoverEffect={false} className="p-6 space-y-5">
               <h3 className="font-heading text-xs uppercase tracking-wider text-textPrimary font-extrabold pb-2 border-b border-border1">
                 Section A — General Details
               </h3>
@@ -299,7 +352,7 @@ export const TrendForm = () => {
                     placeholder="IPL Cinematic AI Reel"
                     value={title}
                     onChange={handleTitleChange}
-                    className="w-full bg-white border border-border1 rounded-full px-4 py-2.5 text-textPrimary focus:outline-none focus:border-primary transition-colors"
+                    className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2.5 text-white placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors"
                   />
                 </div>
 
@@ -312,7 +365,7 @@ export const TrendForm = () => {
                     placeholder="ipl-cinematic-ai-reel"
                     value={slug}
                     onChange={(e) => setSlug(e.target.value)}
-                    className="w-full bg-white border border-border1 rounded-full px-4 py-2.5 text-textPrimary focus:outline-none focus:border-primary transition-colors"
+                    className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2.5 text-white placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors"
                   />
                 </div>
 
@@ -325,7 +378,7 @@ export const TrendForm = () => {
                     placeholder="Write a brief overview for search listings..."
                     value={shortDescription}
                     onChange={(e) => setShortDescription(e.target.value)}
-                    className="w-full bg-white border border-border1 rounded-2xl px-4 py-2.5 text-textPrimary focus:outline-none focus:border-primary transition-colors resize-none"
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-2.5 text-white placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors resize-none"
                   />
                   <div className="text-right text-[10px] text-textMuted">{shortDescription.length}/160</div>
                 </div>
@@ -336,10 +389,10 @@ export const TrendForm = () => {
                   <select
                     value={categoryId}
                     onChange={(e) => setCategoryId(e.target.value)}
-                    className="w-full bg-white border border-border1 rounded-full px-4 py-2.5 text-textPrimary focus:outline-none focus:border-primary transition-colors cursor-pointer"
+                    className="w-full bg-[#0d0d12] border border-white/10 rounded-full px-4 py-2.5 text-white focus:outline-none focus:border-white/30 transition-colors cursor-pointer"
                   >
                     {categories.map((c) => (
-                      <option key={c.id} value={c.id}>
+                      <option key={c.id} value={c.id} className="bg-[#0d0d12] text-white">
                         {c.name}
                       </option>
                     ))}
@@ -349,7 +402,7 @@ export const TrendForm = () => {
                 {/* Difficulty */}
                 <div className="space-y-1.5">
                   <label className="font-semibold text-textSecondary">Difficulty</label>
-                  <div className="flex space-x-2 bg-surface1 p-1 rounded-full border border-border1 w-fit">
+                  <div className="flex space-x-2 bg-white/5 p-1 rounded-full border border-white/10 w-fit">
                     {(['Beginner', 'Intermediate', 'Advanced'] as const).map((diff) => (
                       <button
                         key={diff}
@@ -357,7 +410,7 @@ export const TrendForm = () => {
                         onClick={() => setDifficulty(diff)}
                         className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase transition-all duration-200 cursor-pointer ${
                           difficulty === diff
-                            ? 'bg-primary text-white'
+                            ? 'bg-primary text-[#07070d]'
                             : 'text-textSecondary hover:text-textPrimary'
                         }`}
                       >
@@ -375,7 +428,7 @@ export const TrendForm = () => {
                     placeholder="Midjourney, Kling AI, ElevenLabs, CapCut"
                     value={toolsInput}
                     onChange={(e) => setToolsInput(e.target.value)}
-                    className="w-full bg-white border border-border1 rounded-full px-4 py-2.5 text-textPrimary focus:outline-none focus:border-primary transition-colors"
+                    className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2.5 text-white placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors"
                   />
                 </div>
 
@@ -387,10 +440,10 @@ export const TrendForm = () => {
                     placeholder="https://images.unsplash.com/photo..."
                     value={thumbnailUrl}
                     onChange={(e) => setThumbnailUrl(e.target.value)}
-                    className="w-full bg-white border border-border1 rounded-full px-4 py-2.5 text-textPrimary focus:outline-none focus:border-primary transition-colors"
+                    className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2.5 text-white placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors"
                   />
                   {thumbnailUrl && (
-                    <div className="mt-2 w-48 aspect-video rounded-lg overflow-hidden border border-border1 bg-surface2">
+                    <div className="mt-2 w-48 aspect-video rounded-lg overflow-hidden border border-white/10 bg-surface2">
                       <img src={thumbnailUrl} alt="Preview" className="w-full h-full object-cover" />
                     </div>
                   )}
@@ -404,7 +457,7 @@ export const TrendForm = () => {
                     placeholder="https://assets.mixkit.co/videos/preview..."
                     value={videoPreviewUrl}
                     onChange={(e) => setVideoPreviewUrl(e.target.value)}
-                    className="w-full bg-white border border-border1 rounded-full px-4 py-2.5 text-textPrimary focus:outline-none focus:border-primary transition-colors"
+                    className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2.5 text-white placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors"
                   />
                 </div>
 
@@ -415,7 +468,7 @@ export const TrendForm = () => {
                     id="isFeatured"
                     checked={isFeatured}
                     onChange={(e) => setIsFeatured(e.target.checked)}
-                    className="h-4.5 w-4.5 rounded border-border1 bg-white text-primary focus:ring-primary focus:ring-opacity-50 cursor-pointer"
+                    className="h-4.5 w-4.5 rounded border-white/10 bg-white/5 text-primary focus:ring-primary focus:ring-opacity-50 cursor-pointer"
                   />
                   <label htmlFor="isFeatured" className="font-semibold text-textPrimary cursor-pointer select-none">
                     Feature on Homepage?
@@ -428,7 +481,7 @@ export const TrendForm = () => {
 
           {/* TAB B: GUIDE STEPS */}
           {activeFormTab === 'steps' && (
-            <Card hoverEffect={false} className="p-6 space-y-6 bg-white border border-border1">
+            <Card hoverEffect={false} className="p-6 space-y-6">
               <div className="flex items-center justify-between border-b border-border1 pb-2">
                 <h3 className="font-heading text-xs uppercase tracking-wider text-textPrimary font-extrabold">
                   Section B — Step-by-Step Instructions
@@ -448,7 +501,7 @@ export const TrendForm = () => {
 
               <div className="space-y-6">
                 {steps.map((step, idx) => (
-                  <div key={idx} className="relative p-5 rounded-2xl border border-border1 bg-surface1 space-y-4 text-xs">
+                  <div key={idx} className="relative p-5 rounded-2xl border border-white/10 bg-white/[0.01] space-y-4 text-xs">
                     
                     {/* Index & Delete bar */}
                     <div className="flex items-center justify-between pb-2 border-b border-border1">
@@ -473,7 +526,7 @@ export const TrendForm = () => {
                         placeholder="Generate Stills in Midjourney"
                         value={step.title || ''}
                         onChange={(e) => handleStepChange(idx, 'title', e.target.value)}
-                        className="w-full bg-white border border-border1 rounded-full px-4 py-2 text-textPrimary focus:outline-none focus:border-primary transition-colors"
+                        className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-colors"
                       />
                     </div>
 
@@ -486,7 +539,7 @@ export const TrendForm = () => {
                         placeholder="Provide detailed instructions on what configurations or sliders to adjust..."
                         value={step.description || ''}
                         onChange={(e) => handleStepChange(idx, 'description', e.target.value)}
-                        className="w-full bg-white border border-border1 rounded-2xl px-4 py-2 text-textPrimary focus:outline-none focus:border-primary transition-colors"
+                        className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-colors"
                       />
                     </div>
 
@@ -499,7 +552,7 @@ export const TrendForm = () => {
                           placeholder="Use --style raw --ar 16:9"
                           value={step.tip || ''}
                           onChange={(e) => handleStepChange(idx, 'tip', e.target.value)}
-                          className="w-full bg-white border border-border1 rounded-full px-4 py-2 text-textPrimary focus:outline-none focus:border-primary transition-colors"
+                          className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-colors"
                         />
                       </div>
 
@@ -510,7 +563,7 @@ export const TrendForm = () => {
                           placeholder="Keep transitions high; slow transitions look generic"
                           value={step.warning || ''}
                           onChange={(e) => handleStepChange(idx, 'warning', e.target.value)}
-                          className="w-full bg-white border border-border1 rounded-full px-4 py-2 text-textPrimary focus:outline-none focus:border-primary transition-colors"
+                          className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-colors"
                         />
                       </div>
                     </div>
@@ -523,7 +576,7 @@ export const TrendForm = () => {
 
           {/* TAB C: PROMPTS */}
           {activeFormTab === 'prompts' && (
-            <Card hoverEffect={false} className="p-6 space-y-6 bg-white border border-border1">
+            <Card hoverEffect={false} className="p-6 space-y-6">
               <div className="flex items-center justify-between border-b border-border1 pb-2">
                 <h3 className="font-heading text-xs uppercase tracking-wider text-textPrimary font-extrabold">
                   Section C — Prompt Code Blocks
@@ -543,7 +596,7 @@ export const TrendForm = () => {
 
               <div className="space-y-6">
                 {prompts.map((p, idx) => (
-                  <div key={idx} className="relative p-5 rounded-2xl border border-border1 bg-surface1 space-y-4 text-xs">
+                  <div key={idx} className="relative p-5 rounded-2xl border border-white/10 bg-white/[0.01] space-y-4 text-xs">
                     
                     {/* Index & Delete bar */}
                     <div className="flex items-center justify-between pb-2 border-b border-border1">
@@ -569,7 +622,7 @@ export const TrendForm = () => {
                           placeholder="Midjourney Image Prompt"
                           value={p.label || ''}
                           onChange={(e) => handlePromptChange(idx, 'label', e.target.value)}
-                          className="w-full bg-white border border-border1 rounded-full px-4 py-2 text-textPrimary focus:outline-none focus:border-primary transition-colors"
+                          className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-colors"
                         />
                       </div>
 
@@ -581,7 +634,7 @@ export const TrendForm = () => {
                           placeholder="Midjourney"
                           value={p.tool_name || ''}
                           onChange={(e) => handlePromptChange(idx, 'tool_name', e.target.value)}
-                          className="w-full bg-white border border-border1 rounded-full px-4 py-2 text-textPrimary focus:outline-none focus:border-primary transition-colors"
+                          className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-colors"
                         />
                       </div>
                     </div>
@@ -595,7 +648,7 @@ export const TrendForm = () => {
                         placeholder="Paste prompt template here..."
                         value={p.prompt_text || ''}
                         onChange={(e) => handlePromptChange(idx, 'prompt_text', e.target.value)}
-                        className="w-full bg-white border border-border1 rounded-2xl px-4 py-2 monospace-code text-textPrimary focus:outline-none focus:border-primary transition-colors"
+                        className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-2 monospace-code text-white placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-colors resize-none"
                       />
                     </div>
 
@@ -607,7 +660,7 @@ export const TrendForm = () => {
 
           {/* TAB D: RESOURCES */}
           {activeFormTab === 'resources' && (
-            <Card hoverEffect={false} className="p-6 space-y-6 bg-white border border-border1">
+            <Card hoverEffect={false} className="p-6 space-y-6">
               <h3 className="font-heading text-xs uppercase tracking-wider text-textPrimary font-extrabold pb-2 border-b border-border1">
                 Section D — Reference Links & YouTube Walkthroughs
               </h3>
@@ -621,10 +674,10 @@ export const TrendForm = () => {
                     placeholder="dQw4w9WgXcQ"
                     value={youtubeVideoId}
                     onChange={(e) => setYoutubeVideoId(e.target.value)}
-                    className="w-full bg-white border border-border1 rounded-full px-4 py-2 text-textPrimary focus:outline-none focus:border-primary transition-colors"
+                    className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-colors"
                   />
                   {youtubeVideoId && youtubeVideoId.length === 11 && (
-                    <div className="mt-2 w-48 aspect-video rounded-lg overflow-hidden border border-border1 bg-surface2">
+                    <div className="mt-2 w-48 aspect-video rounded-lg overflow-hidden border border-white/10 bg-surface2">
                       <iframe
                         src={`https://www.youtube.com/embed/${youtubeVideoId}`}
                         title="Preview"
@@ -653,7 +706,7 @@ export const TrendForm = () => {
 
                   <div className="space-y-4">
                     {articles.map((art, idx) => (
-                      <div key={idx} className="flex flex-col sm:flex-row gap-3 p-4 border border-border1 rounded-2xl bg-surface1">
+                      <div key={idx} className="flex flex-col sm:flex-row gap-3 p-4 border border-white/10 rounded-2xl bg-white/[0.01]">
                         
                         {/* Title */}
                         <div className="flex-1 space-y-1.5">
@@ -663,7 +716,7 @@ export const TrendForm = () => {
                             placeholder="Veo 3 Animation Guide"
                             value={art.title || ''}
                             onChange={(e) => handleArticleChange(idx, 'title', e.target.value)}
-                            className="w-full bg-white border border-border1 rounded-full px-4 py-2 text-textPrimary focus:outline-none focus:border-primary transition-colors"
+                            className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-colors"
                           />
                         </div>
 
@@ -675,7 +728,7 @@ export const TrendForm = () => {
                             placeholder="https://deepmind.google/..."
                             value={art.url || ''}
                             onChange={(e) => handleArticleChange(idx, 'url', e.target.value)}
-                            className="w-full bg-white border border-border1 rounded-full px-4 py-2 text-textPrimary focus:outline-none focus:border-primary transition-colors"
+                            className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-colors"
                           />
                         </div>
 
@@ -687,7 +740,7 @@ export const TrendForm = () => {
                             placeholder="Google DeepMind"
                             value={art.source_name || ''}
                             onChange={(e) => handleArticleChange(idx, 'source_name', e.target.value)}
-                            className="w-full bg-white border border-border1 rounded-full px-4 py-2 text-textPrimary focus:outline-none focus:border-primary transition-colors"
+                            className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-colors"
                           />
                         </div>
 

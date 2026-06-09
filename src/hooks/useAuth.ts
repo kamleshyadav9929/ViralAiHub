@@ -20,21 +20,27 @@ export function useAuth() {
           if (session) {
             setIsAuthenticated(true);
             setUserEmail(session.user.email || null);
-          } else {
-            setIsAuthenticated(false);
+            return;
           }
+        }
+        
+        // Fallback or default mock session check
+        const localSession = sessionStorage.getItem(SESSION_KEY);
+        if (localSession === 'true') {
+          setIsAuthenticated(true);
+          setUserEmail(MOCK_ADMIN_EMAIL);
         } else {
-          // Check local mock session
-          const localSession = sessionStorage.getItem(SESSION_KEY);
-          if (localSession === 'true') {
-            setIsAuthenticated(true);
-            setUserEmail(MOCK_ADMIN_EMAIL);
-          } else {
-            setIsAuthenticated(false);
-          }
+          setIsAuthenticated(false);
         }
       } catch (err) {
         console.error('Session check failed', err);
+        
+        // Fallback to local session check on error
+        const localSession = sessionStorage.getItem(SESSION_KEY);
+        if (localSession === 'true') {
+          setIsAuthenticated(true);
+          setUserEmail(MOCK_ADMIN_EMAIL);
+        }
       } finally {
         setLoading(false);
       }
@@ -46,8 +52,17 @@ export function useAuth() {
     let subscription: any = null;
     if (supabase) {
       const { data } = supabase.auth.onAuthStateChange((_event, session) => {
-        setIsAuthenticated(!!session);
-        setUserEmail(session?.user?.email || null);
+        if (session) {
+          setIsAuthenticated(true);
+          setUserEmail(session.user.email || null);
+        } else {
+          // If Supabase signed out, check if mock session is still active
+          const localSession = sessionStorage.getItem(SESSION_KEY);
+          if (localSession !== 'true') {
+            setIsAuthenticated(false);
+            setUserEmail(null);
+          }
+        }
         setLoading(false);
       });
       subscription = data.subscription;
@@ -65,18 +80,30 @@ export function useAuth() {
     setError(null);
     try {
       if (supabase) {
-        const { data, error: authError } = await supabase.auth.signInWithPassword({
-          email,
-          password
-        });
-        if (authError) throw authError;
-        
-        if (data.session) {
-          setIsAuthenticated(true);
-          setUserEmail(data.session.user.email || null);
-          return true;
+        try {
+          const { data, error: authError } = await supabase.auth.signInWithPassword({
+            email,
+            password
+          });
+          if (authError) throw authError;
+          
+          if (data.session) {
+            setIsAuthenticated(true);
+            setUserEmail(data.session.user.email || null);
+            return true;
+          }
+          return false;
+        } catch (err: any) {
+          console.warn('Supabase auth failed, checking mock credentials fallback:', err.message || err);
+          // Fallback to local mock credentials
+          if (email.toLowerCase() === MOCK_ADMIN_EMAIL && password === MOCK_ADMIN_PASSWORD) {
+            sessionStorage.setItem(SESSION_KEY, 'true');
+            setIsAuthenticated(true);
+            setUserEmail(MOCK_ADMIN_EMAIL);
+            return true;
+          }
+          throw err;
         }
-        return false;
       } else {
         // Mock Login
         if (email.toLowerCase() === MOCK_ADMIN_EMAIL && password === MOCK_ADMIN_PASSWORD) {

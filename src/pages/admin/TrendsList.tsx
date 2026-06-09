@@ -46,7 +46,7 @@ export const TrendsList = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
-      <div className="space-y-8 px-6 md:px-12 py-6">
+      <div className="space-y-8 px-6 md:px-12 py-6 pt-24">
         
         {/* Back Link */}
         <div className="flex items-center justify-between border-b border-border1 pb-4">
@@ -81,7 +81,7 @@ export const TrendsList = () => {
             placeholder="Search within admin library..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white border border-border1 rounded-full pl-10 pr-4 py-2 text-xs text-textPrimary focus:outline-none focus:border-primary transition-colors"
+            className="w-full bg-white/5 border border-white/10 rounded-full pl-10 pr-4 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-white/30 transition-colors"
           />
         </div>
 
@@ -99,7 +99,7 @@ export const TrendsList = () => {
             <p className="text-xs text-textSecondary">No trends found matching search query.</p>
           </div>
         ) : (
-          <div className="w-full overflow-x-auto rounded-2xl border border-border1 bg-white">
+          <div className="w-full overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.02]">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
                 <tr className="border-b border-border1 bg-surface1 text-textPrimary font-bold uppercase tracking-wider">

@@ -47,7 +47,7 @@ export const Dialog = ({ isOpen, onClose, title, children, className }: DialogPr
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ type: 'spring', duration: 0.35 }}
             className={cn(
-              'relative w-full max-w-lg glass-panel rounded-2xl p-6 z-10 border border-border1 bg-white',
+              'relative w-full max-w-lg glass-panel rounded-2xl p-6 z-10 border border-border1',
               className
             )}
           >

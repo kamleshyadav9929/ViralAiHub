@@ -2,7 +2,7 @@ import Skeleton from './Skeleton';
 
 export const TrendCardSkeleton = () => {
   return (
-    <div className="w-full max-w-[290px] sm:max-w-[320px] md:max-w-[350px] bg-[#11111a] rounded-[28px] border border-white/10 overflow-hidden flex flex-col p-2.5 space-y-4">
+    <div className="w-full max-w-[290px] sm:max-w-[320px] md:max-w-[350px] bg-[#12121e] rounded-[28px] border border-white/15 overflow-hidden flex flex-col p-2.5 space-y-4">
       {/* Thumbnail Frame */}
       <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[20px] bg-surface2/60">
         <Skeleton className="w-full h-full rounded-[20px]" />
@@ -198,7 +198,7 @@ export const CategorySkeleton = () => {
       </div>
 
       {/* Category Hero Banner */}
-      <div className="relative w-full p-8 md:p-12 rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-md flex flex-col md:flex-row md:items-center gap-6">
+      <div className="relative w-full p-8 md:p-12 rounded-3xl border border-white/15 bg-[#12121e] flex flex-col md:flex-row md:items-center gap-6">
         <Skeleton className="w-16 h-16 rounded-2xl bg-surface2/60 shrink-0" />
         <div className="space-y-3 flex-1 w-full">
           <Skeleton className="h-8 w-48 rounded-full" />

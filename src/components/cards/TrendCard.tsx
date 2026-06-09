@@ -21,14 +21,15 @@ export const TrendCard = ({ trend, animateEntry = true, delayIndex = 0 }: TrendC
 
   return (
     <div
-      className={`w-full max-w-[340px] sm:max-w-[320px] md:max-w-[350px] mx-auto bg-[#11111a] rounded-[28px] border border-white/10 overflow-hidden transition-all duration-300 relative flex flex-col hover:border-white/25 hover:shadow-[0_15px_40px_rgba(255,255,255,0.02)] ${animateEntry ? 'animate-fade-in opacity-0' : ''
-        }`}
+      className={`w-full max-w-[340px] sm:max-w-[320px] md:max-w-[350px] mx-auto bg-[#181826] rounded-[28px] border border-white/10 overflow-hidden transition-all duration-300 relative flex flex-col hover:border-white/20 hover:bg-[#222232] ${
+        animateEntry ? 'animate-fade-in opacity-0' : ''
+      }`}
       style={{
         animationDelay: `${delayIndex * 0.05}s`
       }}
     >
       {/* Main Container / Thumbnail Frame */}
-      <Link to={`/trend/${trend.slug}`} className="p-2.5 w-full block group">
+      <Link to={`/trend/${trend.slug}`} className="p-2.5 w-full block group relative z-10">
         <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[20px] bg-[#07070d]">
           {trend.video_preview_url && (
             <button
@@ -60,13 +61,13 @@ export const TrendCard = ({ trend, animateEntry = true, delayIndex = 0 }: TrendC
       </Link>
 
       {/* Opened Content Area (Always Visible) */}
-      <div className="px-5 pb-5 pt-2 flex-1 flex flex-col justify-between space-y-4">
+      <div className="px-5 pb-5 pt-2 flex-1 flex flex-col justify-between space-y-4 relative z-10">
         {/* Description */}
         <div className="space-y-1">
-          <span className="text-[9px] uppercase font-semibold tracking-wider text-white/40 font-mono">
+          <span className="text-[9px] uppercase font-semibold tracking-wider text-white/60 font-mono">
             Overview
           </span>
-          <p className="text-xs text-white/70 leading-relaxed font-light line-clamp-3">
+          <p className="text-xs text-white leading-relaxed font-light line-clamp-3">
             {trend.short_description || 'Step-by-step workflow guide to master this viral AI content style.'}
           </p>
         </div>
@@ -75,7 +76,7 @@ export const TrendCard = ({ trend, animateEntry = true, delayIndex = 0 }: TrendC
         <div className="pt-2 border-t border-white/5">
           <Link
             to={`/trend/${trend.slug}`}
-            className="w-full h-9 bg-white/5 hover:bg-white hover:text-[#07070d] text-white text-[10px] uppercase font-bold tracking-wider rounded-full flex items-center justify-center gap-1 transition-all border border-white/10 hover:border-transparent"
+            className="w-full h-9 bg-white text-[#07070d] hover:bg-white/90 text-[10px] uppercase font-bold tracking-wider rounded-full flex items-center justify-center gap-1 transition-all border border-transparent"
           >
             <span>View Guide</span>
             <ArrowUpRight size={12} />

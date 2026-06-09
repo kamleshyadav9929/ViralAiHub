@@ -83,16 +83,10 @@ export const Navbar = () => {
           <div className="w-full px-6 flex items-center justify-between h-full">
             {/* Logo & Name */}
             <Link to="/" className="flex items-center space-x-3 group">
-              <div className={cn(
-                "w-8 h-8 rounded-xl overflow-hidden flex items-center justify-center p-0.5 group-hover:scale-105 transition-transform duration-300 shadow-sm transition-colors duration-300",
-                isDarkTheme ? "border border-white/10 bg-[#07070d]/50" : "border border-border1/60 bg-white"
-              )}>
+              <div className="w-8 h-8 rounded-xl overflow-hidden flex items-center justify-center p-0.5 group-hover:scale-105 transition-transform duration-300 shadow-sm border border-white/10 bg-[#07070d]/50">
                 <img src="/logo.png" alt="ViralAI Hub Logo" className="w-full h-full object-contain" />
               </div>
-              <span className={cn(
-                "font-heading text-base md:text-lg font-bold tracking-tight transition-colors duration-300",
-                isDarkTheme ? "text-white" : "text-textPrimary"
-              )}>
+              <span className="font-heading text-base md:text-lg font-bold tracking-tight text-white transition-colors duration-300">
                 ViralAI Hub
               </span>
             </Link>
@@ -136,19 +130,13 @@ export const Navbar = () => {
                           exit={{ opacity: 0, y: 8, scale: 0.96 }}
                           transition={{ duration: 0.15, ease: 'easeOut' }}
                           className={cn(
-                            "absolute top-full mt-2 w-[560px] rounded-[24px] p-2 z-50 flex overflow-hidden transition-all duration-300",
-                            isDarkTheme
-                              ? "bg-[#07070d]/95 backdrop-blur-xl border border-white/10 shadow-[0px_15px_40px_rgba(0,0,0,0.6)]"
-                              : "bg-white border border-border1 shadow-[0px_10px_30px_rgba(0,0,0,0.08)]",
+                            "absolute top-full mt-2 w-[560px] rounded-[24px] p-2 z-50 flex overflow-hidden transition-all duration-300 bg-[#07070d]/95 backdrop-blur-xl border border-white/10 shadow-[0px_15px_40px_rgba(0,0,0,0.6)]",
                             item.index === 2 ? "-right-10 origin-top-right" : "-left-10 origin-top-left"
                           )}
                         >
                           {/* Left Column: List */}
                           <div className="flex-1 p-2 flex flex-col gap-1 relative z-10">
-                            <div className={cn(
-                              "px-3 pb-2 text-[10px] uppercase font-bold tracking-wider font-mono text-left transition-colors duration-300",
-                              isDarkTheme ? "text-white/40" : "text-textMuted"
-                            )}>
+                            <div className="px-3 pb-2 text-[10px] uppercase font-bold tracking-wider font-mono text-left text-white/40 transition-colors duration-300">
                               {hoveredMenuIndex === 0 && 'Guides by Categories'}
                               {hoveredMenuIndex === 1 && 'Resources & Tools'}
                               {hoveredMenuIndex === 2 && 'About ViralAI Hub'}
@@ -176,32 +164,18 @@ export const Navbar = () => {
                                       {isSubHovered && (
                                         <motion.div
                                           layoutId="categoryHoverHighlight"
-                                          className={cn(
-                                            "absolute inset-0 rounded-xl",
-                                            isDarkTheme ? "bg-white/5" : "bg-neutral-200/60"
-                                          )}
+                                          className="absolute inset-0 rounded-xl bg-white/5"
                                           transition={{ type: 'spring', stiffness: 380, damping: 28 }}
                                         />
                                       )}
-                                      <div className={cn(
-                                        "w-8 h-8 rounded-lg flex items-center justify-center shrink-0 shadow-sm relative z-10 transition-colors duration-200",
-                                        isDarkTheme 
-                                          ? "text-white/80 bg-white/5 border border-white/10" 
-                                          : subItem.color
-                                      )}>
+                                      <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 shadow-sm relative z-10 transition-colors duration-200 text-white/80 bg-white/5 border border-white/10">
                                         <Icon size={16} />
                                       </div>
                                       <div className="space-y-0.5 text-left relative z-10">
-                                        <h4 className={cn(
-                                          "text-xs font-semibold leading-none transition-colors duration-200",
-                                          isDarkTheme ? "text-white group-hover/cat:text-white" : "text-textPrimary group-hover/cat:text-primary"
-                                        )}>
+                                        <h4 className="text-xs font-semibold leading-none transition-colors duration-200 text-white group-hover/cat:text-white">
                                           {subItem.name}
                                         </h4>
-                                        <p className={cn(
-                                          "text-[10px] leading-tight font-light line-clamp-1 transition-colors duration-200",
-                                          isDarkTheme ? "text-white/40" : "text-textMuted"
-                                        )}>
+                                        <p className="text-[10px] leading-tight font-light line-clamp-1 transition-colors duration-200 text-white/40">
                                           {subItem.desc}
                                         </p>
                                       </div>

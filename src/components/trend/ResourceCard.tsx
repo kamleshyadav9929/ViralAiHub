@@ -87,7 +87,7 @@ export const ResourceCard = ({ youtubeVideoId, articles, tools = [] }: ResourceC
                   href={info.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center space-x-2 bg-surface2 border border-border1 hover:bg-white hover:border-primary/20 hover:shadow-sm px-3.5 py-2 rounded-xl text-xs text-textSecondary hover:text-textPrimary transition-all duration-300 cursor-pointer group"
+                  className="flex items-center space-x-2 bg-surface2 border border-border1 hover:bg-white hover:text-[#07070d] hover:border-transparent hover:shadow-sm px-3.5 py-2 rounded-xl text-xs text-textSecondary transition-all duration-300 cursor-pointer group"
                 >
                   <div className="w-5 h-5 rounded-md bg-white border border-border1 flex items-center justify-center overflow-hidden p-0.5 shrink-0 shadow-sm relative">
                     <img

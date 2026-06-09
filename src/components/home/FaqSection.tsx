@@ -11,7 +11,7 @@ const FaqItem = ({ question, answer }: FaqItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="bg-[#11111a] rounded-[20px] border border-white/10 overflow-hidden transition-all duration-300 hover:border-white/25 hover:shadow-[0_10px_25px_rgba(255,255,255,0.02)]">
+    <div className="bg-[#181826] rounded-[20px] border border-white/10 overflow-hidden transition-all duration-300 hover:border-white/20 hover:bg-[#222232]">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full px-6 py-5 flex items-center justify-between text-left font-heading font-medium text-sm sm:text-base text-white hover:bg-white/5 transition-colors focus:outline-none cursor-pointer"

@@ -26,6 +26,7 @@ import Login from './pages/admin/Login';
 import Dashboard from './pages/admin/Dashboard';
 import TrendsList from './pages/admin/TrendsList';
 import TrendForm from './pages/admin/TrendForm';
+import ScrapeTrend from './pages/admin/ScrapeTrend';
 import ProtectedRoute from './components/admin/ProtectedRoute';
 
 // Page Transition Wrapper
@@ -188,6 +189,16 @@ const RouteAnimator = () => {
             <ProtectedRoute>
               <AnimatedPage>
                 <TrendForm />
+              </AnimatedPage>
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/admin/scrape" 
+          element={
+            <ProtectedRoute>
+              <AnimatedPage>
+                <ScrapeTrend />
               </AnimatedPage>
             </ProtectedRoute>
           } 

@@ -40,7 +40,7 @@ export const PromptCard = ({ prompt }: PromptCardProps) => {
           {prompt.tool_name && (
             <>
               <span className="text-textMuted">•</span>
-              <span className="bg-white border border-border1 px-2 py-0.5 rounded text-[10px] text-textPrimary font-medium">
+              <span className="bg-white/10 border border-white/10 px-2 py-0.5 rounded text-[10px] text-textPrimary font-medium">
                 {prompt.tool_name}
               </span>
             </>
@@ -84,7 +84,7 @@ export const PromptCard = ({ prompt }: PromptCardProps) => {
 
       {/* Code Text Block */}
       <div className="p-4">
-        <pre className="monospace-code text-xs md:text-sm text-textPrimary bg-white p-4 rounded-lg border border-border1 whitespace-pre-wrap break-all leading-relaxed select-all">
+        <pre className="monospace-code text-xs md:text-sm text-textPrimary bg-[#07070d]/50 p-4 rounded-lg border border-border1 whitespace-pre-wrap break-all leading-relaxed select-all">
           {prompt.prompt_text || ''}
         </pre>
       </div>

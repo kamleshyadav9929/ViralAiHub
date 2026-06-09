@@ -64,8 +64,8 @@
 
 /* Cohere Glassmorphism / Surface Styles */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #12121e;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .glass-panel-hover {
@@ -73,8 +73,8 @@
 }
 
 .glass-panel-hover:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
   transform: translateY(-2px);
 }
 
@@ -101,9 +101,9 @@
 
 /* Subtle Natural Wash Background */
 .animated-mesh {
-  background: linear-gradient(135deg, #07070d 0%, #12121f 45%, #0d0d17 75%, #07070d 100%);
+  background: linear-gradient(135deg, #07070d 0%, #0d0a1a 35%, #150820 65%, #051417 85%, #07070d 100%);
   background-size: 200% 200%;
-  animation: meshAnimation 15s ease infinite;
+  animation: meshAnimation 18s ease infinite;
 }
 
 @keyframes meshAnimation {
@@ -166,4 +166,34 @@
   background-image: radial-gradient(circle at 50% 50%, rgba(255, 119, 89, 0.08) 0%, transparent 70%),
                     radial-gradient(circle at 90% 10%, rgba(0, 60, 51, 0.05) 0%, transparent 60%);
 }
+
+/* Administrative interface panels */
+.admin-panel {
+  background: #0d0d12;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.admin-panel-hover {
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.admin-panel-hover:hover {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Premium Aura Grid Background */
+.bg-aura-grid {
+  background-color: #07070d;
+  background-image: 
+    /* Center-top theatrical staging light (indigo fading into soft coral) */
+    radial-gradient(ellipse at 50% 0%, rgba(99, 102, 241, 0.05) 0%, rgba(255, 119, 89, 0.02) 60%, transparent 100%),
+    /* Technical hairline grid */
+    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 100% 100%, 36px 36px, 36px 36px;
+}
+
+
 

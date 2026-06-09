@@ -1,5 +1,6 @@
 import { forwardRef } from 'react';
 import type { HTMLAttributes } from 'react';
+import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { cn } from '../../lib/utils';
 
@@ -11,6 +12,16 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ className, hoverEffect = true, animateEntry = false, delayIndex = 0, ...props }, ref) => {
+    const location = useLocation();
+    const isAdmin = location.pathname.startsWith('/admin');
+
+    const cardClass = cn(
+      'rounded-2xl overflow-hidden transition-all duration-300',
+      isAdmin ? 'admin-panel' : 'glass-panel',
+      hoverEffect && (isAdmin ? 'admin-panel-hover' : 'glass-panel-hover'),
+      className
+    );
+
     if (animateEntry) {
       return (
         <motion.div
@@ -19,11 +30,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.4, delay: delayIndex * 0.05, ease: 'easeOut' }}
-          className={cn(
-            'glass-panel rounded-2xl overflow-hidden transition-all duration-300',
-            hoverEffect && 'glass-panel-hover',
-            className
-          )}
+          className={cardClass}
           {...props as any}
         />
       );
@@ -32,11 +39,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
     return (
       <div
         ref={ref}
-        className={cn(
-          'glass-panel rounded-2xl overflow-hidden transition-all duration-300',
-          hoverEffect && 'glass-panel-hover',
-          className
-        )}
+        className={cardClass}
         {...props}
       />
     );
