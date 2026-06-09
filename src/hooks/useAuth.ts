@@ -12,6 +12,8 @@ export function useAuth() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const isDev = import.meta.env.DEV;
+
   useEffect(() => {
     async function checkSession() {
       try {
@@ -24,22 +26,27 @@ export function useAuth() {
           }
         }
         
-        // Fallback or default mock session check
-        const localSession = sessionStorage.getItem(SESSION_KEY);
-        if (localSession === 'true') {
-          setIsAuthenticated(true);
-          setUserEmail(MOCK_ADMIN_EMAIL);
-        } else {
-          setIsAuthenticated(false);
+        // Fallback or default mock session check (Dev only)
+        if (isDev) {
+          const localSession = sessionStorage.getItem(SESSION_KEY);
+          if (localSession === 'true') {
+            setIsAuthenticated(true);
+            setUserEmail(MOCK_ADMIN_EMAIL);
+            return;
+          }
         }
+        
+        setIsAuthenticated(false);
       } catch (err) {
         console.error('Session check failed', err);
         
-        // Fallback to local session check on error
-        const localSession = sessionStorage.getItem(SESSION_KEY);
-        if (localSession === 'true') {
-          setIsAuthenticated(true);
-          setUserEmail(MOCK_ADMIN_EMAIL);
+        // Fallback to local session check on error (Dev only)
+        if (isDev) {
+          const localSession = sessionStorage.getItem(SESSION_KEY);
+          if (localSession === 'true') {
+            setIsAuthenticated(true);
+            setUserEmail(MOCK_ADMIN_EMAIL);
+          }
         }
       } finally {
         setLoading(false);
@@ -57,7 +64,7 @@ export function useAuth() {
           setUserEmail(session.user.email || null);
         } else {
           // If Supabase signed out, check if mock session is still active
-          const localSession = sessionStorage.getItem(SESSION_KEY);
+          const localSession = isDev ? sessionStorage.getItem(SESSION_KEY) : null;
           if (localSession !== 'true') {
             setIsAuthenticated(false);
             setUserEmail(null);
@@ -94,9 +101,8 @@ export function useAuth() {
           }
           return false;
         } catch (err: any) {
-          console.warn('Supabase auth failed, checking mock credentials fallback:', err.message || err);
-          // Fallback to local mock credentials
-          if (email.toLowerCase() === MOCK_ADMIN_EMAIL && password === MOCK_ADMIN_PASSWORD) {
+          // Fallback to local mock credentials (Dev only)
+          if (isDev && email.toLowerCase() === MOCK_ADMIN_EMAIL && password === MOCK_ADMIN_PASSWORD) {
             sessionStorage.setItem(SESSION_KEY, 'true');
             setIsAuthenticated(true);
             setUserEmail(MOCK_ADMIN_EMAIL);
@@ -105,14 +111,18 @@ export function useAuth() {
           throw err;
         }
       } else {
-        // Mock Login
-        if (email.toLowerCase() === MOCK_ADMIN_EMAIL && password === MOCK_ADMIN_PASSWORD) {
+        // Mock Login (Dev only)
+        if (isDev && email.toLowerCase() === MOCK_ADMIN_EMAIL && password === MOCK_ADMIN_PASSWORD) {
           sessionStorage.setItem(SESSION_KEY, 'true');
           setIsAuthenticated(true);
           setUserEmail(MOCK_ADMIN_EMAIL);
           return true;
         } else {
-          throw new Error('Invalid email or password. Use: admin@viralaihub.com / admin123');
+          throw new Error(
+            isDev 
+              ? 'Invalid email or password. Use: admin@viralaihub.com / admin123'
+              : 'Database authentication system is not configured.'
+          );
         }
       }
     } catch (err: any) {

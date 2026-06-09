@@ -119,20 +119,22 @@ export const Login = () => {
               </Button>
             </form>
 
-            {/* Test Instructions Box */}
-            <div className="mt-6 p-4 rounded-2xl border border-white/10 bg-white/[0.01] text-[11px] text-textSecondary space-y-1">
-              <div className="flex items-center space-x-1.5 text-secondary font-bold">
-                <Sparkles size={12} className="animate-pulse" />
-                <span>Local Sandbox Mode Enabled</span>
+            {/* Test Instructions Box (Dev mode only) */}
+            {import.meta.env.DEV && (
+              <div className="mt-6 p-4 rounded-2xl border border-white/10 bg-white/[0.01] text-[11px] text-textSecondary space-y-1">
+                <div className="flex items-center space-x-1.5 text-secondary font-bold">
+                  <Sparkles size={12} className="animate-pulse" />
+                  <span>Local Sandbox Mode Enabled</span>
+                </div>
+                <p className="text-textMuted leading-relaxed">
+                  If Supabase Auth is not configured, log in with:
+                </p>
+                <div className="monospace-code text-white mt-1.5 p-2.5 bg-white/5 rounded-xl border border-white/10 flex flex-col space-y-0.5 select-all">
+                  <span>Email: admin@viralaihub.com</span>
+                  <span>Pass: admin123</span>
+                </div>
               </div>
-              <p className="text-textMuted leading-relaxed">
-                If Supabase Auth is not configured, log in with:
-              </p>
-              <div className="monospace-code text-white mt-1.5 p-2.5 bg-white/5 rounded-xl border border-white/10 flex flex-col space-y-0.5 select-all">
-                <span>Email: admin@viralaihub.com</span>
-                <span>Pass: admin123</span>
-              </div>
-            </div>
+            )}
 
           </CardContent>
         </Card>
