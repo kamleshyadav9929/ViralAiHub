@@ -95,26 +95,26 @@ export const Category = () => {
         {/* Back Link */}
         <Link 
           to="/" 
-          className="inline-flex items-center space-x-1.5 text-xs text-textMuted hover:text-textPrimary transition-colors"
+          className="inline-flex items-center space-x-1.5 text-xs text-neutral-500 hover:text-[#17171c] transition-colors text-left"
         >
           <ArrowLeft size={12} />
           <span>Back to Explore</span>
         </Link>
 
         {/* Category Hero Banner */}
-        <div className="relative w-full p-8 md:p-12 rounded-3xl glass-panel border border-white/10 overflow-hidden bg-white/[0.03] backdrop-blur-md">
+        <div className="relative w-full p-8 md:p-12 rounded-3xl bg-white border border-neutral-200 overflow-hidden shadow-sm text-left">
           {/* Decorative nodes */}
-          <div className="absolute -top-10 -right-10 w-48 h-48 bg-primary/10 rounded-full blur-[60px]" />
+          <div className="absolute -top-10 -right-10 w-48 h-48 bg-primary/5 rounded-full blur-[60px]" />
           
           <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-6">
             <div className="w-16 h-16 rounded-2xl bg-[#ff7759] text-white flex items-center justify-center shrink-0 shadow-sm">
               <CategoryIcon iconName={category.icon} size={28} />
             </div>
             <div className="space-y-2">
-              <h1 className="font-heading text-2xl md:text-4xl font-extrabold text-textPrimary leading-none">
+              <h1 className="font-heading text-2xl md:text-4xl font-bold text-[#17171c] leading-none">
                 {category.name}
               </h1>
-              <p className="text-sm text-textSecondary max-w-2xl font-light leading-relaxed">
+              <p className="text-sm text-neutral-500 max-w-2xl font-light leading-relaxed">
                 {category.description || `Browse the hottest guides and copy-paste templates in ${category.name}.`}
               </p>
             </div>
@@ -122,27 +122,27 @@ export const Category = () => {
         </div>
 
         {/* Controls Bar: Sorting */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border1 pb-4">
-          <div className="text-xs font-semibold text-textSecondary">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-neutral-200 pb-4">
+          <div className="text-xs font-semibold text-[#616161] text-left">
             Showing {sortedTrends.length} {sortedTrends.length === 1 ? 'trend' : 'trends'}
           </div>
 
           {/* Sort Pill Selectors */}
           <div className="flex items-center space-x-2">
-            <div className="text-[10px] uppercase font-bold text-textMuted flex items-center gap-1">
+            <div className="text-[10px] uppercase font-bold text-neutral-400 flex items-center gap-1">
               <ArrowUpDown size={10} />
               <span>Sort by:</span>
             </div>
             
-            <div className="flex space-x-1 bg-surface1 p-0.5 rounded-full border border-border1">
+            <div className="flex space-x-1 bg-neutral-100 p-0.5 rounded-full border border-neutral-200">
               {(['latest', 'views', 'copied'] as const).map((mode) => (
                 <button
                   key={mode}
                   onClick={() => setSortBy(mode)}
-                  className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase transition-all duration-200 cursor-pointer ${
+                  className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase transition-all duration-200 cursor-pointer border-0 ${
                     sortBy === mode
-                      ? 'bg-primary text-white'
-                      : 'text-textSecondary hover:text-textPrimary hover:bg-surface2'
+                      ? 'bg-[#17171c] text-white'
+                      : 'text-[#616161] hover:text-[#17171c] hover:bg-white/50 bg-transparent'
                   }`}
                 >
                   {mode}
@@ -156,10 +156,10 @@ export const Category = () => {
         {trendsLoading ? (
           <LatestGridSkeleton count={8} showHeader={false} />
         ) : sortedTrends.length === 0 ? (
-          <div className="text-center py-20 bg-surface1 border border-border1 rounded-2xl">
-            <Compass className="mx-auto text-textMuted mb-4 animate-pulse" size={36} />
-            <p className="text-sm font-semibold text-textSecondary">No trends in this category yet.</p>
-            <p className="text-xs text-textMuted mt-1">Check back soon or submit a new trend.</p>
+          <div className="text-center py-20 bg-[#eeece7]/30 border border-neutral-200 rounded-2xl">
+            <Compass className="mx-auto text-neutral-400 mb-4 animate-pulse" size={36} />
+            <p className="text-sm font-semibold text-neutral-700">No trends in this category yet.</p>
+            <p className="text-xs text-neutral-400 mt-1">Check back soon or submit a new trend.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 items-start">

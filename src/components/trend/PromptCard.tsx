@@ -40,7 +40,7 @@ export const PromptCard = ({ prompt }: PromptCardProps) => {
           {prompt.tool_name && (
             <>
               <span className="text-textMuted">•</span>
-              <span className="bg-white/10 border border-white/10 px-2 py-0.5 rounded text-[10px] text-textPrimary font-medium">
+              <span className="bg-neutral-100 border border-neutral-200 px-2 py-0.5 rounded text-[10px] text-neutral-600 font-medium">
                 {prompt.tool_name}
               </span>
             </>
@@ -50,7 +50,7 @@ export const PromptCard = ({ prompt }: PromptCardProps) => {
         {/* Copy Button */}
         <button
           onClick={handleCopy}
-          className="text-textSecondary hover:text-textPrimary flex items-center space-x-1 hover:bg-surface1 px-2 py-1 rounded transition-colors cursor-pointer"
+          className="text-textSecondary hover:text-textPrimary flex items-center space-x-1 hover:bg-surface1 px-2 py-1 rounded transition-colors cursor-pointer border-0 bg-transparent"
         >
           <AnimatePresence mode="wait" initial={false}>
             {copied ? (
@@ -84,7 +84,7 @@ export const PromptCard = ({ prompt }: PromptCardProps) => {
 
       {/* Code Text Block */}
       <div className="p-4">
-        <pre className="monospace-code text-xs md:text-sm text-textPrimary bg-[#07070d]/50 p-4 rounded-lg border border-border1 whitespace-pre-wrap break-all leading-relaxed select-all">
+        <pre className="monospace-code text-xs md:text-sm text-neutral-800 bg-neutral-50 p-4 rounded-lg border border-neutral-200 whitespace-pre-wrap break-all leading-relaxed select-all text-left">
           {prompt.prompt_text || ''}
         </pre>
       </div>

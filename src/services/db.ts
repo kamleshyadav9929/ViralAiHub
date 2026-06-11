@@ -141,6 +141,70 @@ const SEED_TRENDS: Trend[] = [
     updated_at: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
   },
   {
+    id: 'f4c5c7d8-8d02-4043-b9b5-fcd7be4782ca',
+    title: 'Cyberpunk City Walkthrough',
+    slug: 'cyberpunk-city-walkthrough',
+    short_description: 'Build a blockbuster-style sci-fi movie trailer with dramatic cinematic footage, a gritty voiceover, epic orchestral risers, and sound design.',
+    category_id: '5ff7382c-47db-45bf-ad97-e89c6d3df3be',
+    tools: ['Runway Gen-3', 'Midjourney', 'ElevenLabs', 'Premiere Pro'],
+    difficulty: 'Advanced',
+    thumbnail_url: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&auto=format&fit=crop&q=80',
+    video_preview_url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
+    is_featured: false,
+    view_count: 1500,
+    copied_count: 300,
+    created_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    updated_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: 'f4c5c7d8-8d02-4043-b9b5-fcd7be4782cb',
+    title: 'Mars Rover Documentary',
+    slug: 'mars-rover-documentary',
+    short_description: 'Build a blockbuster-style sci-fi movie trailer with dramatic cinematic footage, a gritty voiceover, epic orchestral risers, and sound design.',
+    category_id: '5ff7382c-47db-45bf-ad97-e89c6d3df3be',
+    tools: ['Runway Gen-3', 'Midjourney', 'ElevenLabs', 'Premiere Pro'],
+    difficulty: 'Intermediate',
+    thumbnail_url: 'https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?w=800&auto=format&fit=crop&q=80',
+    video_preview_url: '',
+    is_featured: false,
+    view_count: 1200,
+    copied_count: 250,
+    created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+    updated_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: 'f4c5c7d8-8d02-4043-b9b5-fcd7be4782cc',
+    title: 'Interstellar Space Fight',
+    slug: 'interstellar-space-fight',
+    short_description: 'Build a blockbuster-style sci-fi movie trailer with dramatic cinematic footage, a gritty voiceover, epic orchestral risers, and sound design.',
+    category_id: '5ff7382c-47db-45bf-ad97-e89c6d3df3be',
+    tools: ['Runway Gen-3', 'Midjourney', 'ElevenLabs', 'Premiere Pro'],
+    difficulty: 'Advanced',
+    thumbnail_url: 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=800&auto=format&fit=crop&q=80',
+    video_preview_url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
+    is_featured: false,
+    view_count: 2100,
+    copied_count: 450,
+    created_at: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
+    updated_at: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: 'f4c5c7d8-8d02-4043-b9b5-fcd7be4782cd',
+    title: 'Alien Planet Ecosystem',
+    slug: 'alien-planet-ecosystem',
+    short_description: 'Build a blockbuster-style sci-fi movie trailer with dramatic cinematic footage, a gritty voiceover, epic orchestral risers, and sound design.',
+    category_id: '5ff7382c-47db-45bf-ad97-e89c6d3df3be',
+    tools: ['Runway Gen-3', 'Midjourney', 'ElevenLabs', 'Premiere Pro'],
+    difficulty: 'Advanced',
+    thumbnail_url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=80',
+    video_preview_url: '',
+    is_featured: false,
+    view_count: 1800,
+    copied_count: 380,
+    created_at: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+    updated_at: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
     id: 'f4c5c7d8-8d02-4043-b9b5-fcd7be4782c1',
     title: 'Architectural Concept Visualization',
     slug: 'architectural-concept-visualization',
@@ -1288,13 +1352,11 @@ export const dbService = {
     clearCache(); // Clear cache to reflect new view counts in grids
     if (supabase) {
       try {
-        const { data } = await supabase.from('trends').select('view_count').eq('id', id).single();
-        if (data) {
-          await supabase.from('trends').update({ view_count: (data.view_count || 0) + 1 }).eq('id', id);
-          return;
-        }
+        const { error } = await supabase.rpc('increment_trend_view', { trend_id: id });
+        if (error) throw error;
+        return;
       } catch (err) {
-        // silent catch
+        console.error('Supabase incrementViewCount RPC failed, falling back to local.', err);
       }
     }
 
@@ -1311,13 +1373,11 @@ export const dbService = {
     clearCache(); // Clear cache to reflect new copy counts in grids
     if (supabase) {
       try {
-        const { data } = await supabase.from('trends').select('copied_count').eq('id', id).single();
-        if (data) {
-          await supabase.from('trends').update({ copied_count: (data.copied_count || 0) + 1 }).eq('id', id);
-          return;
-        }
+        const { error } = await supabase.rpc('increment_trend_copy', { trend_id: id });
+        if (error) throw error;
+        return;
       } catch (err) {
-        // silent catch
+        console.error('Supabase incrementCopyCount RPC failed, falling back to local.', err);
       }
     }
 

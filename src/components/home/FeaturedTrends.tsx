@@ -45,17 +45,17 @@ export const FeaturedTrends = ({ trends }: FeaturedTrendsProps) => {
     <section className="w-full py-2 space-y-6 relative z-10">
       
       {/* Title & Scroll Buttons Header */}
-      <div className="flex items-center justify-between border-b border-white/10 pb-4">
+      <div className="flex items-center justify-between border-b border-neutral-200 pb-4">
         <div className="flex items-center space-x-3">
           <div className="bg-[#ff7759]/10 text-[#ff7759] p-2 rounded-xl border border-[#ff7759]/25">
             <Flame size={20} className="fill-[#ff7759] animate-pulse" />
           </div>
-          <div>
-            <h2 className="text-xl md:text-2xl font-heading font-medium text-white leading-none mb-1">
-              Trending Now
+          <div className="text-left">
+            <h2 className="text-xl md:text-2xl font-heading font-bold text-[#17171c] leading-none mb-1">
+              Emerging Workflows
             </h2>
-            <p className="text-xs text-white/40 font-medium">
-              The most copied and viral AI workflows of the week
+            <p className="text-xs text-[#616161] font-medium">
+              Curated generative pipelines currently driving digital media trends
             </p>
           </div>
         </div>
@@ -64,14 +64,14 @@ export const FeaturedTrends = ({ trends }: FeaturedTrendsProps) => {
         <div className="flex items-center space-x-2">
           <button
             onClick={() => scroll('left')}
-            className="w-8 h-8 rounded-full border border-white/10 hover:bg-white/5 flex items-center justify-center text-white transition-colors cursor-pointer"
+            className="w-8 h-8 rounded-full border border-neutral-200 hover:bg-neutral-100 flex items-center justify-center text-[#17171c] transition-colors cursor-pointer bg-white"
             aria-label="Scroll Left"
           >
             <ChevronLeft size={16} />
           </button>
           <button
             onClick={() => scroll('right')}
-            className="w-8 h-8 rounded-full border border-white/10 hover:bg-white/5 flex items-center justify-center text-white transition-colors cursor-pointer"
+            className="w-8 h-8 rounded-full border border-neutral-200 hover:bg-neutral-100 flex items-center justify-center text-[#17171c] transition-colors cursor-pointer bg-white"
             aria-label="Scroll Right"
           >
             <ChevronRight size={16} />

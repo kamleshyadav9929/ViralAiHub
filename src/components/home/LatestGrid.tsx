@@ -21,22 +21,22 @@ export const LatestGrid = ({ trends }: LatestGridProps) => {
     <div className="w-full py-2 space-y-8 relative z-10">
       
       {/* Title Header */}
-      <div className="flex items-center justify-between border-b border-white/10 pb-4">
+      <div className="flex items-center justify-between border-b border-neutral-200 pb-4">
         <div className="space-y-1">
-          <h2 className="text-xl md:text-2xl font-heading font-medium text-white leading-none">
-            Latest AI Trends
+          <h2 className="text-xl md:text-2xl font-heading font-bold text-[#17171c] leading-none">
+            Recent Reconstructions
           </h2>
-          <p className="text-xs text-white/40 font-medium">
-            Explore the newly added prompt templates and step-by-step tutorials
+          <p className="text-xs text-[#616161] font-light">
+            The latest prompt blueprints and step-by-step guides added to the index
           </p>
         </div>
       </div>
 
       {trends.length === 0 ? (
-        <div className="text-center py-20 bg-white/[0.02] border border-white/10 rounded-2xl">
-          <Sparkles className="mx-auto text-white/40 mb-4 animate-pulse" size={36} />
-          <p className="text-sm font-semibold text-white/80">No trends found.</p>
-          <p className="text-xs text-white/40 mt-1">Check back later or submit a new trend.</p>
+        <div className="text-center py-20 bg-neutral-50 border border-neutral-200 rounded-2xl">
+          <Sparkles className="mx-auto text-neutral-400 mb-4 animate-pulse" size={36} />
+          <p className="text-sm font-semibold text-[#17171c]">No resources found.</p>
+          <p className="text-xs text-[#616161] mt-1">Check back later or submit a new pipeline.</p>
         </div>
       ) : (
         <>
@@ -53,9 +53,9 @@ export const LatestGrid = ({ trends }: LatestGridProps) => {
               <Button 
                 variant="secondary" 
                 onClick={handleLoadMore}
-                className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20 transition-all"
+                className="w-full sm:w-auto bg-[#17171c] hover:bg-black text-white rounded-full transition-all border-none font-bold text-xs px-6 py-2.5 shadow-sm"
               >
-                Load More Trends
+                Load More Blueprints
               </Button>
             </div>
           )}

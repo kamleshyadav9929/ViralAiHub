@@ -110,7 +110,7 @@ export const TrendHeader = ({ trend }: TrendHeaderProps) => {
       </div>
 
       {/* Below-banner content area */}
-      <div className="bg-white/[0.03] backdrop-blur-md p-6 md:p-8 space-y-5">
+      <div className="bg-white border-t border-neutral-100 p-6 md:p-8 space-y-5">
 
         {/* Description + Share row */}
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">

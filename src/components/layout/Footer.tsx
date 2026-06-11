@@ -24,7 +24,7 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="w-full bg-darkbg border-t border-border1 py-12 pb-24 md:pb-12 text-white/70 text-sm mt-auto relative z-10">
+    <footer className="w-full bg-[#17171c] border-t border-white/5 py-12 pb-24 md:pb-12 text-white/70 text-sm mt-auto relative z-10">
       <div className="w-full px-6 md:px-12 grid grid-cols-1 md:grid-cols-4 gap-8">
         
         {/* Info Column */}
@@ -96,7 +96,7 @@ export const Footer = () => {
         </div>
       </div>
 
-      <div className="w-full px-6 md:px-12 border-t border-white/10 mt-10 pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-white/40">
+      <div className="w-full px-6 md:px-12 border-t border-white/5 mt-10 pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-white/40">
         <p>&copy; {new Date().getFullYear()} ViralAI Hub. All rights reserved.</p>
         <p className="mt-2 md:mt-0">Inspired by Cohere Design</p>
       </div>

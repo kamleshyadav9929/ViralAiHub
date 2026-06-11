@@ -92,13 +92,41 @@ CREATE POLICY "Allow public read articles" ON articles FOR SELECT USING (true);
 
 -- Enable subscriber INSERT for newsletter signup
 CREATE POLICY "Allow public insert subscribers" ON subscribers FOR INSERT WITH CHECK (true);
-CREATE POLICY "Allow public read subscribers" ON subscribers FOR SELECT TO authenticated USING (true);
+CREATE POLICY "Allow admin read subscribers" ON subscribers FOR SELECT TO authenticated USING (auth.jwt() ->> 'email' = 'admin@viralaihub.com');
 
 -- Enable all permissions for authenticated Admin users
-CREATE POLICY "Allow admin all categories" ON categories FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Allow admin all trends" ON trends FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Allow admin all steps" ON steps FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Allow admin all prompts" ON prompts FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Allow admin all resources" ON resources FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Allow admin all articles" ON articles FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Allow admin all subscribers" ON subscribers FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Allow admin all categories" ON categories FOR ALL TO authenticated USING (auth.jwt() ->> 'email' = 'admin@viralaihub.com') WITH CHECK (auth.jwt() ->> 'email' = 'admin@viralaihub.com');
+CREATE POLICY "Allow admin all trends" ON trends FOR ALL TO authenticated USING (auth.jwt() ->> 'email' = 'admin@viralaihub.com') WITH CHECK (auth.jwt() ->> 'email' = 'admin@viralaihub.com');
+CREATE POLICY "Allow admin all steps" ON steps FOR ALL TO authenticated USING (auth.jwt() ->> 'email' = 'admin@viralaihub.com') WITH CHECK (auth.jwt() ->> 'email' = 'admin@viralaihub.com');
+CREATE POLICY "Allow admin all prompts" ON prompts FOR ALL TO authenticated USING (auth.jwt() ->> 'email' = 'admin@viralaihub.com') WITH CHECK (auth.jwt() ->> 'email' = 'admin@viralaihub.com');
+CREATE POLICY "Allow admin all resources" ON resources FOR ALL TO authenticated USING (auth.jwt() ->> 'email' = 'admin@viralaihub.com') WITH CHECK (auth.jwt() ->> 'email' = 'admin@viralaihub.com');
+CREATE POLICY "Allow admin all articles" ON articles FOR ALL TO authenticated USING (auth.jwt() ->> 'email' = 'admin@viralaihub.com') WITH CHECK (auth.jwt() ->> 'email' = 'admin@viralaihub.com');
+CREATE POLICY "Allow admin all subscribers" ON subscribers FOR ALL TO authenticated USING (auth.jwt() ->> 'email' = 'admin@viralaihub.com') WITH CHECK (auth.jwt() ->> 'email' = 'admin@viralaihub.com');
+
+-- Secure database functions for incrementing trend views and copies
+-- Run these in Supabase dashboard or SQL script execution:
+--
+-- CREATE OR REPLACE FUNCTION increment_trend_view(trend_id uuid)
+-- RETURNS void
+-- LANGUAGE plpgsql
+-- SECURITY DEFINER
+-- AS $$
+-- BEGIN
+--   UPDATE trends
+--   SET view_count = COALESCE(view_count, 0) + 1
+--   WHERE id = trend_id;
+-- END;
+-- $$;
+--
+-- CREATE OR REPLACE FUNCTION increment_trend_copy(trend_id uuid)
+-- RETURNS void
+-- LANGUAGE plpgsql
+-- SECURITY DEFINER
+-- AS $$
+-- BEGIN
+--   UPDATE trends
+--   SET copied_count = COALESCE(copied_count, 0) + 1
+--   WHERE id = trend_id;
+-- END;
+-- $$;
+

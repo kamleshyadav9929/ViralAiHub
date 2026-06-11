@@ -153,11 +153,7 @@ export const SubmitTrend = () => {
         <meta name="description" content="Share your viral AI workflow, prompts, and tutorials with other creators on ViralAI Hub." />
       </Helmet>
 
-      <div className="relative min-h-[90vh] bg-[#07070d] text-white py-24 px-6 md:px-12 overflow-hidden flex flex-col justify-start">
-        {/* Glow decoration */}
-        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-[#ff7759]/5 rounded-full blur-[110px] pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none" />
-
+      <div className="relative min-h-[90vh] bg-white text-[#17171c] py-24 px-6 md:px-12 overflow-hidden flex flex-col justify-start">
         <div className="max-w-3xl mx-auto w-full space-y-8 relative z-10">
           
           {/* Header */}
@@ -165,15 +161,15 @@ export const SubmitTrend = () => {
             <div className="space-y-4 text-center md:text-left">
               <Link 
                 to="/" 
-                className="inline-flex items-center space-x-1.5 text-xs text-textMuted hover:text-textPrimary transition-colors"
+                className="inline-flex items-center space-x-1.5 text-xs text-neutral-500 hover:text-[#17171c] transition-colors"
               >
                 <ArrowLeft size={12} />
                 <span>Back to Explore</span>
               </Link>
-              <h1 className="font-heading text-3xl sm:text-5xl font-semibold leading-none tracking-tight">
+              <h1 className="font-heading text-3xl sm:text-5xl font-bold leading-none tracking-tight text-[#17171c]">
                 Submit an <span className="text-[#ff7759]">AI Trend Guide</span>
               </h1>
-              <p className="text-xs sm:text-sm text-white/50 font-light max-w-xl">
+              <p className="text-xs sm:text-sm text-[#616161] font-light max-w-xl">
                 Have you mastered a trending AI generation workflow? Share your step-by-step guides, specific prompts, and settings with our global community.
               </p>
             </div>
@@ -181,20 +177,20 @@ export const SubmitTrend = () => {
 
           {/* Progress Indicator */}
           {wizardStep !== 4 && (
-            <div className="flex items-center space-x-3 text-xs font-semibold py-4 border-y border-white/10 select-none">
+            <div className="flex items-center space-x-3 text-xs font-bold py-4 border-y border-neutral-200 select-none">
               <div className="flex items-center space-x-1">
-                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${wizardStep >= 1 ? 'bg-primary text-[#07070d]' : 'bg-white/10 text-white/40'}`}>1</span>
-                <span className={wizardStep === 1 ? 'text-white' : 'text-white/40'}>General Info</span>
+                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${wizardStep >= 1 ? 'bg-[#17171c] text-white' : 'bg-neutral-100 text-neutral-400'}`}>1</span>
+                <span className={wizardStep === 1 ? 'text-[#17171c]' : 'text-neutral-400'}>General Info</span>
               </div>
-              <ChevronRight size={12} className="text-white/25" />
+              <ChevronRight size={12} className="text-neutral-300" />
               <div className="flex items-center space-x-1">
-                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${wizardStep >= 2 ? 'bg-primary text-[#07070d]' : 'bg-white/10 text-white/40'}`}>2</span>
-                <span className={wizardStep === 2 ? 'text-white' : 'text-white/40'}>Steps & Tips</span>
+                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${wizardStep >= 2 ? 'bg-[#17171c] text-white' : 'bg-neutral-100 text-neutral-400'}`}>2</span>
+                <span className={wizardStep === 2 ? 'text-[#17171c]' : 'text-neutral-400'}>Steps & Tips</span>
               </div>
-              <ChevronRight size={12} className="text-white/25" />
+              <ChevronRight size={12} className="text-neutral-300" />
               <div className="flex items-center space-x-1">
-                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${wizardStep >= 3 ? 'bg-primary text-[#07070d]' : 'bg-white/10 text-white/40'}`}>3</span>
-                <span className={wizardStep === 3 ? 'text-white' : 'text-white/40'}>Prompts</span>
+                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${wizardStep >= 3 ? 'bg-[#17171c] text-white' : 'bg-neutral-100 text-neutral-400'}`}>3</span>
+                <span className={wizardStep === 3 ? 'text-[#17171c]' : 'text-neutral-400'}>Prompts</span>
               </div>
             </div>
           )}
@@ -204,28 +200,28 @@ export const SubmitTrend = () => {
             
             {/* Step 1: General Info */}
             {wizardStep === 1 && (
-              <Card hoverEffect={false} className="p-6 md:p-8 bg-white/[0.02] border-white/10 rounded-3xl space-y-6">
-                <h3 className="font-heading text-xs uppercase tracking-wider text-textPrimary font-bold pb-2 border-b border-white/5 text-left">
+              <Card hoverEffect={false} className="p-6 md:p-8 bg-white border border-neutral-200 rounded-3xl space-y-6 shadow-sm">
+                <h3 className="font-heading text-xs uppercase tracking-wider text-[#17171c] font-bold pb-2 border-b border-neutral-100 text-left">
                   General Details
                 </h3>
 
                 <div className="space-y-4 text-xs">
                   {/* Title */}
                   <div className="space-y-1.5 text-left">
-                    <label className="font-semibold text-textSecondary">Trend Title *</label>
+                    <label className="font-semibold text-[#616161]">Trend Title *</label>
                     <input
                       type="text"
                       required
                       placeholder="e.g. Retro 90s Anime Video Loop"
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2.5 text-white placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors"
+                      className="w-full bg-neutral-50 border border-neutral-200 rounded-full px-4 py-2.5 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-400 focus:bg-white transition-all"
                     />
                   </div>
 
                   {/* Short Description */}
                   <div className="space-y-1.5 text-left">
-                    <label className="font-semibold text-textSecondary">Short Description (Max 160 characters) *</label>
+                    <label className="font-semibold text-[#616161]">Short Description (Max 160 characters) *</label>
                     <textarea
                       maxLength={160}
                       rows={3}
@@ -233,22 +229,22 @@ export const SubmitTrend = () => {
                       placeholder="Describe what the trend accomplishes and the visual style..."
                       value={shortDescription}
                       onChange={(e) => setShortDescription(e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-2.5 text-white placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors resize-none"
+                      className="w-full bg-neutral-50 border border-neutral-200 rounded-2xl px-4 py-2.5 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-400 focus:bg-white transition-all resize-none"
                     />
-                    <div className="text-right text-[10px] text-white/30">{shortDescription.length}/160</div>
+                    <div className="text-right text-[10px] text-neutral-400">{shortDescription.length}/160</div>
                   </div>
 
                   {/* Category & Difficulty */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
                     <div className="space-y-1.5">
-                      <label className="font-semibold text-textSecondary">Category *</label>
+                      <label className="font-semibold text-[#616161]">Category *</label>
                       <select
                         value={categoryId}
                         onChange={(e) => setCategoryId(e.target.value)}
-                        className="w-full bg-[#07070d] border border-white/10 rounded-full px-4 py-2.5 text-white focus:outline-none focus:border-white/30 transition-colors cursor-pointer"
+                        className="w-full bg-neutral-50 border border-neutral-200 rounded-full px-4 py-2.5 text-neutral-900 focus:outline-none focus:border-neutral-400 focus:bg-white transition-all cursor-pointer"
                       >
                         {categories.map((c) => (
-                          <option key={c.id} value={c.id} className="bg-[#07070d]">
+                          <option key={c.id} value={c.id} className="bg-white text-neutral-900">
                             {c.name}
                           </option>
                         ))}
@@ -256,17 +252,17 @@ export const SubmitTrend = () => {
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="font-semibold text-textSecondary">Difficulty *</label>
-                      <div className="flex space-x-2 bg-white/5 p-1 rounded-full border border-white/10 w-fit">
+                      <label className="font-semibold text-[#616161]">Difficulty *</label>
+                      <div className="flex space-x-2 bg-neutral-50 p-1 rounded-full border border-neutral-200 w-fit">
                         {(['Beginner', 'Intermediate', 'Advanced'] as const).map((diff) => (
                           <button
                             key={diff}
                             type="button"
                             onClick={() => setDifficulty(diff)}
-                            className={`px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase transition-all duration-200 cursor-pointer ${
+                            className={`px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase transition-all duration-200 cursor-pointer border-0 ${
                               difficulty === diff
-                                ? 'bg-white text-[#07070d]'
-                                : 'text-white/60 hover:text-white'
+                                ? 'bg-[#17171c] text-white'
+                                : 'text-neutral-500 hover:text-black bg-transparent'
                             }`}
                           >
                             {diff}
@@ -278,38 +274,38 @@ export const SubmitTrend = () => {
 
                   {/* Tools Used */}
                   <div className="space-y-1.5 text-left">
-                    <label className="font-semibold text-textSecondary">Tools Used (comma-separated) *</label>
+                    <label className="font-semibold text-[#616161]">Tools Used (comma-separated) *</label>
                     <input
                       type="text"
                       required
                       placeholder="e.g. Midjourney, Kling AI, CapCut"
                       value={toolsInput}
                       onChange={(e) => setToolsInput(e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2.5 text-white placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors"
+                      className="w-full bg-neutral-50 border border-neutral-200 rounded-full px-4 py-2.5 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-400 focus:bg-white transition-all"
                     />
                   </div>
 
                   {/* Thumbnail URL */}
                   <div className="space-y-1.5 text-left">
-                    <label className="font-semibold text-textSecondary">Thumbnail Image URL (Optional)</label>
+                    <label className="font-semibold text-[#616161]">Thumbnail Image URL (Optional)</label>
                     <input
                       type="text"
                       placeholder="https://images.unsplash.com/photo..."
                       value={thumbnailUrl}
                       onChange={(e) => setThumbnailUrl(e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2.5 text-white placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors"
+                      className="w-full bg-neutral-50 border border-neutral-200 rounded-full px-4 py-2.5 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-400 focus:bg-white transition-all"
                     />
                   </div>
 
                   {/* Video Preview URL */}
                   <div className="space-y-1.5 text-left">
-                    <label className="font-semibold text-textSecondary">Video Loop Preview URL (Optional)</label>
+                    <label className="font-semibold text-[#616161]">Video Loop Preview URL (Optional)</label>
                     <input
                       type="text"
                       placeholder="https://assets.mixkit.co/videos/preview..."
                       value={videoPreviewUrl}
                       onChange={(e) => setVideoPreviewUrl(e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2.5 text-white placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors"
+                      className="w-full bg-neutral-50 border border-neutral-200 rounded-full px-4 py-2.5 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-400 focus:bg-white transition-all"
                     />
                   </div>
                 </div>
@@ -318,7 +314,7 @@ export const SubmitTrend = () => {
                   <Button
                     type="button"
                     onClick={handleNextStep}
-                    className="flex items-center gap-1 text-xs font-semibold h-10"
+                    className="flex items-center gap-1 text-xs font-bold h-10"
                   >
                     <span>Next: Steps & Tips</span>
                     <ChevronRight size={14} />
@@ -329,16 +325,16 @@ export const SubmitTrend = () => {
 
             {/* Step 2: Guide Steps */}
             {wizardStep === 2 && (
-              <Card hoverEffect={false} className="p-6 md:p-8 bg-white/[0.02] border-white/10 rounded-3xl space-y-6">
-                <div className="flex items-center justify-between border-b border-white/5 pb-2">
-                  <h3 className="font-heading text-xs uppercase tracking-wider text-textPrimary font-bold">
+              <Card hoverEffect={false} className="p-6 md:p-8 bg-white border border-neutral-200 rounded-3xl space-y-6 shadow-sm">
+                <div className="flex items-center justify-between border-b border-neutral-100 pb-2">
+                  <h3 className="font-heading text-xs uppercase tracking-wider text-[#17171c] font-bold">
                     Instructions & Tutorial Steps
                   </h3>
                   
                   <button
                     type="button"
                     onClick={addStep}
-                    className="flex items-center gap-1.5 text-[10px] font-bold uppercase text-white hover:text-[#ff7759] transition-colors cursor-pointer bg-transparent border-0 outline-none"
+                    className="flex items-center gap-1.5 text-[10px] font-bold uppercase text-neutral-500 hover:text-[#ff7759] transition-colors cursor-pointer bg-transparent border-0 outline-none"
                   >
                     <Plus size={12} />
                     <span>Add Step</span>
@@ -347,14 +343,14 @@ export const SubmitTrend = () => {
 
                 <div className="space-y-6 text-left">
                   {steps.map((step, idx) => (
-                    <div key={idx} className="relative p-5 rounded-2xl border border-white/5 bg-white/[0.01] space-y-4 text-xs">
-                      <div className="flex items-center justify-between pb-2 border-b border-white/5">
-                        <span className="font-heading font-bold text-white/80">Step #{idx + 1}</span>
+                    <div key={idx} className="relative p-5 rounded-2xl border border-neutral-200 bg-neutral-50/30 space-y-4 text-xs">
+                      <div className="flex items-center justify-between pb-2 border-b border-neutral-200">
+                        <span className="font-heading font-bold text-neutral-700">Step #{idx + 1}</span>
                         {steps.length > 1 && (
                           <button
                             type="button"
                             onClick={() => removeStep(idx)}
-                            className="text-white/40 hover:text-rose-400 transition-colors cursor-pointer"
+                            className="text-neutral-400 hover:text-rose-600 transition-colors cursor-pointer bg-transparent border-0"
                           >
                             <Trash2 size={14} />
                           </button>
@@ -363,51 +359,51 @@ export const SubmitTrend = () => {
 
                       {/* Step Title */}
                       <div className="space-y-1.5">
-                        <label className="font-semibold text-textSecondary">Step Title *</label>
+                        <label className="font-semibold text-[#616161]">Step Title *</label>
                         <input
                           type="text"
                           required
                           placeholder="e.g. Generate character concept still"
                           value={step.title || ''}
                           onChange={(e) => handleStepChange(idx, 'title', e.target.value)}
-                          className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2 text-white placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors"
+                          className="w-full bg-neutral-50 border border-neutral-200 rounded-full px-4 py-2 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-400 focus:bg-white transition-all"
                         />
                       </div>
 
                       {/* Step Description */}
                       <div className="space-y-1.5">
-                        <label className="font-semibold text-textSecondary">Detailed Instructions *</label>
+                        <label className="font-semibold text-[#616161]">Detailed Instructions *</label>
                         <textarea
                           rows={4}
                           required
                           placeholder="Provide step-by-step detail of what the creator needs to do in this stage..."
                           value={step.description || ''}
                           onChange={(e) => handleStepChange(idx, 'description', e.target.value)}
-                          className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-2 text-white placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors resize-none"
+                          className="w-full bg-neutral-50 border border-neutral-200 rounded-2xl px-4 py-2 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-400 focus:bg-white transition-all resize-none"
                         />
                       </div>
 
                       {/* Tip & Warning */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-1.5">
-                          <label className="font-semibold text-textSecondary">Tip (Optional)</label>
+                          <label className="font-semibold text-[#616161]">Tip (Optional)</label>
                           <input
                             type="text"
                             placeholder="e.g. Set aspect ratio to --ar 16:9"
                             value={step.tip || ''}
                             onChange={(e) => handleStepChange(idx, 'tip', e.target.value)}
-                            className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2 text-white placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors"
+                            className="w-full bg-neutral-50 border border-neutral-200 rounded-full px-4 py-2 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-400 focus:bg-white transition-all"
                           />
                         </div>
 
                         <div className="space-y-1.5">
-                          <label className="font-semibold text-textSecondary">Warning (Optional)</label>
+                          <label className="font-semibold text-[#616161]">Warning (Optional)</label>
                           <input
                             type="text"
                             placeholder="e.g. Avoid setting motion value too high"
                             value={step.warning || ''}
                             onChange={(e) => handleStepChange(idx, 'warning', e.target.value)}
-                            className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2 text-white placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors"
+                            className="w-full bg-neutral-50 border border-neutral-200 rounded-full px-4 py-2 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-400 focus:bg-white transition-all"
                           />
                         </div>
                       </div>
@@ -428,7 +424,7 @@ export const SubmitTrend = () => {
                   <Button
                     type="button"
                     onClick={handleNextStep}
-                    className="flex items-center gap-1 text-xs font-semibold h-10"
+                    className="flex items-center gap-1 text-xs font-bold h-10"
                   >
                     <span>Next: Add Prompts</span>
                     <ChevronRight size={14} />
@@ -439,16 +435,16 @@ export const SubmitTrend = () => {
 
             {/* Step 3: Prompts */}
             {wizardStep === 3 && (
-              <Card hoverEffect={false} className="p-6 md:p-8 bg-white/[0.02] border-white/10 rounded-3xl space-y-6">
-                <div className="flex items-center justify-between border-b border-white/5 pb-2">
-                  <h3 className="font-heading text-xs uppercase tracking-wider text-textPrimary font-bold">
+              <Card hoverEffect={false} className="p-6 md:p-8 bg-white border border-neutral-200 rounded-3xl space-y-6 shadow-sm">
+                <div className="flex items-center justify-between border-b border-neutral-100 pb-2">
+                  <h3 className="font-heading text-xs uppercase tracking-wider text-[#17171c] font-bold">
                     Prompt Templates
                   </h3>
                   
                   <button
                     type="button"
                     onClick={addPrompt}
-                    className="flex items-center gap-1.5 text-[10px] font-bold uppercase text-white hover:text-[#ff7759] transition-colors cursor-pointer bg-transparent border-0 outline-none"
+                    className="flex items-center gap-1.5 text-[10px] font-bold uppercase text-neutral-500 hover:text-[#ff7759] transition-colors cursor-pointer bg-transparent border-0 outline-none"
                   >
                     <Plus size={12} />
                     <span>Add Prompt</span>
@@ -457,14 +453,14 @@ export const SubmitTrend = () => {
 
                 <div className="space-y-6 text-left">
                   {prompts.map((p, idx) => (
-                    <div key={idx} className="relative p-5 rounded-2xl border border-white/5 bg-white/[0.01] space-y-4 text-xs">
-                      <div className="flex items-center justify-between pb-2 border-b border-white/5">
-                        <span className="font-heading font-bold text-white/80">Prompt Template #{idx + 1}</span>
+                    <div key={idx} className="relative p-5 rounded-2xl border border-neutral-200 bg-neutral-50/30 space-y-4 text-xs">
+                      <div className="flex items-center justify-between pb-2 border-b border-neutral-200">
+                        <span className="font-heading font-bold text-neutral-700">Prompt Template #{idx + 1}</span>
                         {prompts.length > 1 && (
                           <button
                             type="button"
                             onClick={() => removePrompt(idx)}
-                            className="text-white/40 hover:text-rose-400 transition-colors cursor-pointer"
+                            className="text-neutral-400 hover:text-rose-600 transition-colors cursor-pointer bg-transparent border-0"
                           >
                             <Trash2 size={14} />
                           </button>
@@ -474,41 +470,41 @@ export const SubmitTrend = () => {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {/* Label */}
                         <div className="space-y-1.5">
-                          <label className="font-semibold text-textSecondary">Prompt Label *</label>
+                          <label className="font-semibold text-[#616161]">Prompt Label *</label>
                           <input
                             type="text"
                             required
                             placeholder="e.g. Midjourney Image Prompt"
                             value={p.label || ''}
                             onChange={(e) => handlePromptChange(idx, 'label', e.target.value)}
-                            className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2 text-white placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors"
+                            className="w-full bg-neutral-50 border border-neutral-200 rounded-full px-4 py-2 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-400 focus:bg-white transition-all"
                           />
                         </div>
 
                         {/* Tool Name */}
                         <div className="space-y-1.5">
-                          <label className="font-semibold text-textSecondary">AI Tool Name *</label>
+                          <label className="font-semibold text-[#616161]">AI Tool Name *</label>
                           <input
                             type="text"
                             required
                             placeholder="e.g. Midjourney"
                             value={p.tool_name || ''}
                             onChange={(e) => handlePromptChange(idx, 'tool_name', e.target.value)}
-                            className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2 text-white placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors"
+                            className="w-full bg-neutral-50 border border-neutral-200 rounded-full px-4 py-2 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-400 focus:bg-white transition-all"
                           />
                         </div>
                       </div>
 
                       {/* Prompt Text */}
                       <div className="space-y-1.5">
-                        <label className="font-semibold text-textSecondary">Exact Prompt Text *</label>
+                        <label className="font-semibold text-[#616161]">Exact Prompt Text *</label>
                         <textarea
                           rows={5}
                           required
                           placeholder="Paste prompt template or settings code block..."
                           value={p.prompt_text || ''}
                           onChange={(e) => handlePromptChange(idx, 'prompt_text', e.target.value)}
-                          className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-2 monospace-code text-white placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors resize-none"
+                          className="w-full bg-neutral-50 border border-neutral-200 rounded-2xl px-4 py-2 monospace-code text-neutral-905 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-400 focus:bg-white transition-all resize-none"
                         />
                       </div>
                     </div>
@@ -547,15 +543,15 @@ export const SubmitTrend = () => {
                 transition={{ duration: 0.4 }}
                 className="max-w-xl mx-auto text-center py-16 space-y-6"
               >
-                <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-2 animate-bounce">
+                <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto mb-2 animate-bounce shadow-sm">
                   <Check size={32} className="stroke-[3px]" />
                 </div>
                 
-                <h2 className="font-heading text-3xl font-bold leading-tight">
+                <h2 className="font-heading text-3xl font-bold leading-tight text-[#17171c]">
                   Submission Received!
                 </h2>
                 
-                <p className="text-xs sm:text-sm text-white/50 leading-relaxed max-w-sm mx-auto font-light">
+                <p className="text-xs sm:text-sm text-[#616161] leading-relaxed max-w-sm mx-auto font-light">
                   Thank you for contributing! Your guide has been added to our pending review queue. Once approved by our team, it will go live on the homepage list.
                 </p>
 
@@ -566,7 +562,7 @@ export const SubmitTrend = () => {
                     </Button>
                   </Link>
                   <a href="/community">
-                    <Button variant="outline" className="text-xs font-bold px-6 py-2.5 border-white/10">
+                    <Button variant="outline" className="text-xs font-bold px-6 py-2.5 border-neutral-200">
                       Join Community
                     </Button>
                   </a>

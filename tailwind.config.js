@@ -7,24 +7,24 @@ export default {
   theme: {
     extend: {
       colors: {
-        darkbg: '#07070d', // Dark canvas background
-        surface1: 'rgba(255, 255, 255, 0.05)', // Translucent dark surface
-        surface2: 'rgba(255, 255, 255, 0.02)', // Translucent pale dark surface
-        surface3: 'rgba(255, 255, 255, 0.08)', // High-contrast translucent surface
-        border1: 'rgba(255, 255, 255, 0.1)', // Subtle white divider
-        border2: 'rgba(255, 255, 255, 0.06)', // Softest dark boundary
+        darkbg: '#ffffff', // Stark white canvas background
+        surface1: '#eeece7', // Warm mineral soft stone
+        surface2: '#fcfbf9', // Mineral white off-white surface
+        surface3: '#e5e7eb', // High-contrast light grey surface
+        border1: '#e5e7eb', // Subtle light grey divider
+        border2: '#f2f2f2', // Softest light boundary
         primary: {
-          DEFAULT: '#ffffff', // White primary text/accent in dark theme
-          hover: '#f2f2f2',
+          DEFAULT: '#17171c', // Near-Black primary text/accent in light theme
+          hover: '#000000',
         },
         secondary: {
           DEFAULT: '#ff7759', // Cohere coral accent
           hover: '#e65f40',
         },
-        success: '#10b981', // Glowing emerald green
-        textPrimary: '#ffffff', // Light ink text
-        textSecondary: 'rgba(255, 255, 255, 0.65)', // Body muted grey
-        textMuted: 'rgba(255, 255, 255, 0.4)', // Light muted label
+        success: '#10b981', // Emerald green
+        textPrimary: '#17171c', // Dark ink text
+        textSecondary: '#616161', // Body muted grey/ink
+        textMuted: '#93939f', // Muted slate label
         
         // Direct Cohere Color Tokens
         cohereBlack: '#000000',

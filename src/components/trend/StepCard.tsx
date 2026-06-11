@@ -28,17 +28,17 @@ const EditablePromptBlock = ({ prompt }: EditablePromptBlockProps) => {
 
   return (
     <div className={`border rounded-xl overflow-hidden mt-3 bg-surface1 transition-all duration-300 ${
-      copied ? 'border-emerald-500/60 shadow-[0_0_20px_rgba(16,185,129,0.1)]' : 'border-border1'
+      copied ? 'border-emerald-500/60 shadow-[0_0_20px_rgba(16,185,129,0.05)]' : 'border-border1'
     }`}>
       {/* Header Info */}
       <div className="flex items-center justify-between px-4 py-2 bg-surface2 border-b border-border1 text-xs select-none">
-        <div className="flex items-center space-x-2 text-textSecondary">
+        <div className="flex items-center space-x-2 text-neutral-600">
           <Terminal size={12} className="text-[#ff7759]" />
-          <span className="font-semibold text-white">{prompt.label}</span>
+          <span className="font-semibold text-neutral-800">{prompt.label}</span>
           {prompt.tool_name && (
             <>
-              <span className="text-white/40">•</span>
-              <span className="bg-white/10 border border-white/10 px-2 py-0.5 rounded text-[10px] text-white font-medium">
+              <span className="text-neutral-300">•</span>
+              <span className="bg-neutral-100 border border-neutral-200 px-2 py-0.5 rounded text-[10px] text-neutral-600 font-medium">
                 {prompt.tool_name}
               </span>
             </>
@@ -48,7 +48,7 @@ const EditablePromptBlock = ({ prompt }: EditablePromptBlockProps) => {
         {/* Copy Button */}
         <button
           onClick={handleCopy}
-          className="text-textSecondary hover:text-textPrimary flex items-center space-x-1 hover:bg-surface2 px-2 py-1 rounded transition-colors cursor-pointer bg-transparent border-0 outline-none"
+          className="text-neutral-500 hover:text-black flex items-center space-x-1 hover:bg-neutral-200/50 px-2 py-1 rounded transition-colors cursor-pointer bg-transparent border-0 outline-none"
         >
           <AnimatePresence mode="wait" initial={false}>
             {copied ? (
@@ -81,17 +81,17 @@ const EditablePromptBlock = ({ prompt }: EditablePromptBlockProps) => {
       </div>
 
       {/* Code Text Area */}
-      <div className="p-3 bg-[#07070d]/50">
+      <div className="p-3 bg-white">
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
           rows={Math.max(2, Math.min(8, text.split('\n').length))}
-          className="w-full text-xs md:text-sm font-mono text-white bg-transparent border-0 outline-none resize-y focus:ring-0 leading-relaxed font-light"
+          className="w-full text-xs md:text-sm font-mono text-neutral-800 bg-transparent border-0 outline-none resize-y focus:ring-0 leading-relaxed font-light"
           placeholder="Customize prompt text here..."
         />
-        <div className="text-[10px] text-white/40 mt-1.5 flex justify-between items-center select-none border-t border-white/5 pt-1.5">
+        <div className="text-[10px] text-neutral-400 mt-1.5 flex justify-between items-center select-none border-t border-neutral-100 pt-1.5">
           <span>Edit this prompt above before copying</span>
-          <span className="font-mono text-white/40">{text.length} chars</span>
+          <span className="font-mono text-neutral-400">{text.length} chars</span>
         </div>
       </div>
     </div>

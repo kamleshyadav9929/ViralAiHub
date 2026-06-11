@@ -52,7 +52,7 @@ export const ResourceCard = ({ youtubeVideoId, articles, tools = [] }: ResourceC
               >
                 <Card className="p-4 bg-surface2 hover:bg-surface1 transition-all border border-border1 rounded-xl flex items-center justify-between">
                   <div className="space-y-1 pr-4">
-                    <div className="text-xs font-semibold text-textPrimary line-clamp-1 group-hover:text-white transition-colors duration-300">
+                    <div className="text-xs font-semibold text-textPrimary line-clamp-1 group-hover:text-[#17171c] transition-colors duration-300">
                       {art.title || ''}
                     </div>
                     {art.source_name && (
@@ -61,7 +61,7 @@ export const ResourceCard = ({ youtubeVideoId, articles, tools = [] }: ResourceC
                       </div>
                     )}
                   </div>
-                  <ExternalLink size={12} className="text-textMuted group-hover:text-textPrimary transition-colors shrink-0" />
+                  <ExternalLink size={12} className="text-textMuted group-hover:text-[#17171c] transition-colors shrink-0" />
                 </Card>
               </a>
             ))}
@@ -87,7 +87,7 @@ export const ResourceCard = ({ youtubeVideoId, articles, tools = [] }: ResourceC
                   href={info.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center space-x-2 bg-surface2 border border-border1 hover:bg-white hover:text-[#07070d] hover:border-transparent hover:shadow-sm px-3.5 py-2 rounded-xl text-xs text-textSecondary transition-all duration-300 cursor-pointer group"
+                  className="flex items-center space-x-2 bg-surface2 border border-border1 hover:bg-[#eeece7] hover:text-[#17171c] hover:shadow-sm px-3.5 py-2 rounded-xl text-xs text-textSecondary transition-all duration-300 cursor-pointer group"
                 >
                   <div className="w-5 h-5 rounded-md bg-white border border-border1 flex items-center justify-center overflow-hidden p-0.5 shrink-0 shadow-sm relative">
                     <img
@@ -106,7 +106,7 @@ export const ResourceCard = ({ youtubeVideoId, articles, tools = [] }: ResourceC
                     </span>
                   </div>
                   <span className="font-semibold">{tool}</span>
-                  <ExternalLink size={10} className="text-textMuted group-hover:text-primary transition-colors duration-200" />
+                  <ExternalLink size={10} className="text-textMuted group-hover:text-black transition-colors duration-200" />
                 </a>
               );
             })}

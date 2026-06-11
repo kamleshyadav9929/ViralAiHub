@@ -11,16 +11,17 @@
     "fetch-trends": "tsx scripts/fetch-trends.ts"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.47.10",
+    "@supabase/supabase-js": "^2.108.1",
     "clsx": "^2.1.1",
     "framer-motion": "^11.15.0",
+    "fuse.js": "^7.4.2",
     "gsap": "^3.15.0",
     "lucide-react": "^0.468.0",
     "ogl": "^1.0.11",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-helmet-async": "^2.0.5",
-    "react-router-dom": "^6.28.1",
+    "react-router-dom": "^7.17.0",
     "tailwind-merge": "^2.5.5"
   },
   "devDependencies": {
@@ -35,7 +36,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
-    "postcss": "^8.4.49",
+    "postcss": "^8.5.15",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.22.4",
     "typescript": "~6.0.2",

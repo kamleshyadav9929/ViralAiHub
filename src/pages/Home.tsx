@@ -12,8 +12,17 @@ import LatestGrid from '../components/home/LatestGrid';
 import FaqSection from '../components/home/FaqSection';
 import { Button } from '../components/ui/button';
 import { FeaturedTrendsSkeleton, LatestGridSkeleton } from '../components/ui/Skeletons';
+import Grainient from '../components/home/Grainient';
 
 export const Home = () => {
+  const [newsletterMouse, setNewsletterMouse] = useState({ x: 0, y: 0 });
+
+  const handleNewsletterMouseMove = (e: React.MouseEvent) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 0.16;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 0.16;
+    setNewsletterMouse({ x, y });
+  };
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>(undefined);
   
   // Fetch trends with category filter
@@ -91,20 +100,20 @@ export const Home = () => {
 
       {/* Hero sits directly at the top with a transparent navbar overlay */}
       <div>
-        {/* Section 1: Hero (full screen) */}
-        <section className="w-full border-b border-border2">
+        {/* Section 1: Hero */}
+        <section className="w-full border-b border-neutral-200">
           <HeroSection onExploreClick={handleExploreClick} />
         </section>
 
         {/* Stats Bar */}
-        <section className="bg-blueprint-grid border-b border-border2">
+        <section className="border-b border-neutral-200">
           <StatsBar />
         </section>
       </div>
 
       <div ref={exploreRef} className="w-full">
-        {/* Section 2: Trending Now */}
-        <section className="min-h-screen flex flex-col justify-center py-24 px-6 md:px-12 border-b border-border2 bg-embers-glow">
+        {/* Section 2: Emerging Workflows */}
+        <section className="py-16 md:py-24 px-6 md:px-12 border-b border-neutral-200 bg-section-white">
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -116,8 +125,8 @@ export const Home = () => {
           </motion.div>
         </section>
 
-        {/* Section 3: Browse Prompts by Tools */}
-        <section className="min-h-screen flex flex-col justify-center py-24 px-6 md:px-12 border-b border-border2 bg-dot-matrix">
+        {/* Section 3: Tool Directory */}
+        <section className="py-16 md:py-24 px-6 md:px-12 border-b border-neutral-200 bg-section-warm">
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -129,8 +138,8 @@ export const Home = () => {
           </motion.div>
         </section>
 
-        {/* Section 4: Latest AI Trends (Filter & Grid) */}
-        <section className="min-h-screen flex flex-col justify-start py-24 px-6 md:px-12 border-b border-border2 bg-pinstripe-emerald">
+        {/* Section 4: Recent Reconstructions (Filter & Grid) */}
+        <section className="py-16 md:py-24 px-6 md:px-12 border-b border-neutral-200 bg-section-cool">
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -139,9 +148,9 @@ export const Home = () => {
             className="max-w-[1400px] mx-auto w-full space-y-8 transform-gpu"
           >
             {/* Category Filter Bar */}
-            <div className="py-3 border-b border-white/10">
+            <div className="py-3 border-b border-neutral-200">
               <div className="flex items-center gap-3">
-                <span className="text-[9px] uppercase font-bold tracking-wider text-white/40 font-mono shrink-0 hidden sm:block">
+                <span className="text-[9px] uppercase font-bold tracking-wider text-neutral-400 font-mono shrink-0 hidden sm:block">
                   Filter
                 </span>
                 <div className="flex space-x-2 overflow-x-auto pb-0 px-1 no-scrollbar scroll-smooth">
@@ -161,9 +170,9 @@ export const Home = () => {
                           />
                         )}
                         {!isActive && (
-                          <div className="absolute inset-0 border border-white/10 rounded-full bg-white/5 hover:bg-white/10 transition-colors" />
+                          <div className="absolute inset-0 border border-neutral-200 rounded-full bg-neutral-50 hover:bg-neutral-100 transition-colors" />
                         )}
-                        <span className={`relative z-10 ${isActive ? 'text-white font-bold' : 'text-white/60 hover:text-white'}`}>
+                        <span className={`relative z-10 ${isActive ? 'text-white font-bold' : 'text-neutral-500 hover:text-[#17171c]'}`}>
                           {p.name} <span className="opacity-60 text-[10px] ml-0.5 font-normal">({getCategoryCount(p.slug)})</span>
                         </span>
                       </button>
@@ -183,7 +192,7 @@ export const Home = () => {
         </section>
 
         {/* Section 5: FAQ */}
-        <section className="min-h-screen flex flex-col justify-center py-24 px-6 md:px-12 border-b border-border2 bg-faq-lights">
+        <section className="py-16 md:py-24 px-6 md:px-12 border-b border-neutral-200 bg-section-warm">
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -196,9 +205,30 @@ export const Home = () => {
         </section>
 
         {/* Section 6: Newsletter Subscription */}
-        <section className="min-h-screen flex flex-col justify-center py-24 px-6 md:px-12 bg-newsletter-cosmic">
-          <div className="max-w-[1400px] mx-auto w-full">
-            <div className="w-full py-16 px-6 md:px-12 bg-white/[0.03] backdrop-blur-md rounded-3xl overflow-hidden relative border border-white/10">
+        <section 
+          onMouseMove={handleNewsletterMouseMove}
+          className="py-20 md:py-28 px-6 md:px-12 bg-section-stone"
+        >
+          <div className="max-w-[1400px] mx-auto w-full relative z-10">
+            <div className="w-full py-16 px-6 md:px-12 bg-[#003c33] rounded-3xl overflow-hidden relative border border-white/5">
+              {/* WebGL Grainient Backdrop — inside the inner card */}
+              <div className="absolute inset-0 pointer-events-none opacity-45">
+                <Grainient
+                  centerX={newsletterMouse.x}
+                  centerY={newsletterMouse.y}
+                  color1="#003c33"
+                  color2="#05231e"
+                  color3="#071829"
+                  zoom={1.3}
+                  timeSpeed={0.07}
+                  warpStrength={0.4}
+                  warpFrequency={3.0}
+                  warpSpeed={1.2}
+                  grainAmount={0.03}
+                  className="absolute inset-0"
+                />
+              </div>
+
               <div className="relative z-10 max-w-2xl mx-auto text-center space-y-6">
                 <div className="inline-flex p-3 bg-[#ff7759]/10 border border-[#ff7759]/20 rounded-2xl text-[#ff7759] mb-2">
                   <Mail size={24} />

@@ -58,7 +58,7 @@ export const ScrapeTrend = () => {
 
   // Simulated progress transitions to make the loading experience feel responsive and alive
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: ReturnType<typeof setInterval> | undefined;
     if (status === 'loading') {
       setCurrentStep(0);
       interval = setInterval(() => {

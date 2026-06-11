@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useSearchParams } from 'react-router-dom';
-import { Search as SearchIcon, X, Filter } from 'lucide-react';
+import { useSearchParams, Link } from 'react-router-dom';
+import { Search as SearchIcon, X, Filter, ChevronRight } from 'lucide-react';
+import Fuse from 'fuse.js';
 import { useTrends } from '../hooks/useTrends';
 import { useCategories } from '../hooks/useCategories';
 import { TrendCard } from '../components/cards/TrendCard';
@@ -20,6 +21,15 @@ export const Search = () => {
   const [selectedDifficulty, setSelectedDifficulty] = useState<string | undefined>(searchParams.get('difficulty') || undefined);
   const [selectedTool, setSelectedTool] = useState<string | undefined>(searchParams.get('tool') || undefined);
   const [showFilters, setShowFilters] = useState(false);
+
+  // Pagination
+  const PAGE_SIZE = 8;
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  
+  // Category specific pagination
+  const INITIAL_CATEGORY_COUNT = 4;
+  const LOAD_MORE_CATEGORY_COUNT = 8;
+  const [categoryLimits, setCategoryLimits] = useState<Record<string, number>>({});
 
   // Sync search parameters from URL query string
   useEffect(() => {
@@ -43,13 +53,38 @@ export const Search = () => {
     return () => clearTimeout(handler);
   }, [query]);
 
-  // Fetch results based on filters
+  // Reset pagination when filters change
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+    setCategoryLimits({});
+  }, [debouncedQuery, selectedCategory, selectedDifficulty, selectedTool]);
+
+  // Fetch results based on filters (fetch all matching category/tool, skip DB search)
   const { trends, loading } = useTrends({
-    search: debouncedQuery || undefined,
     categorySlug: selectedCategory,
     difficulty: selectedDifficulty,
     tool: selectedTool,
   });
+
+  // Client-side fuzzy search for instant results
+  const fuse = useMemo(() => new Fuse(trends, {
+    keys: [
+      { name: 'title', weight: 2 },
+      { name: 'tools', weight: 1.5 },
+      { name: 'category.name', weight: 1 },
+      { name: 'short_description', weight: 0.5 }
+    ],
+    threshold: 0.3,
+    ignoreLocation: true,
+  }), [trends]);
+
+  const searchResults = useMemo(() => {
+    if (!debouncedQuery) return trends;
+    return fuse.search(debouncedQuery).map(r => r.item);
+  }, [debouncedQuery, fuse, trends]);
+
+  const visibleTrends = searchResults.slice(0, visibleCount);
+  const hasMore = visibleCount < searchResults.length;
 
   const handleClearFilters = () => {
     setQuery('');
@@ -81,13 +116,13 @@ export const Search = () => {
       <div className="space-y-8 px-6 md:px-12 py-6 pt-16">
         
         {/* Header & Search Bar Row */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-border1 pb-6">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-neutral-200 pb-6">
           {/* Page Header */}
-          <div className="space-y-1.5 shrink-0">
-            <h1 className="font-heading text-2xl md:text-3xl font-extrabold text-textPrimary leading-none">
+          <div className="space-y-1.5 shrink-0 text-left">
+            <h1 className="font-heading text-2xl md:text-3xl font-bold text-[#17171c] leading-none">
               Search Prompt Library
             </h1>
-            <p className="text-xs text-textSecondary font-light leading-relaxed">
+            <p className="text-xs text-[#616161] font-light leading-relaxed">
               Search titles, descriptions, prompts, or tool stacks.
             </p>
           </div>
@@ -95,7 +130,7 @@ export const Search = () => {
           {/* Search Bar & Toggle Filter Button */}
           <div className="flex items-center gap-3 w-full lg:max-w-2xl">
             <div className="relative flex-1">
-              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-textMuted transition-colors">
+              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-neutral-400 transition-colors">
                 <SearchIcon size={16} />
               </div>
               <input
@@ -103,12 +138,12 @@ export const Search = () => {
                 placeholder="Type to search (e.g. cricket, lo-fi lyrics, Midjourney...)"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-full pl-10 pr-10 py-2.5 text-xs sm:text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-white/30 transition-colors"
+                className="w-full bg-[#eeece7]/40 border border-neutral-200 rounded-full pl-10 pr-10 py-2.5 text-xs sm:text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:bg-white focus:border-neutral-300 transition-all"
               />
               {query && (
                 <button
                   onClick={() => setQuery('')}
-                  className="absolute inset-y-0 right-4 flex items-center text-textMuted hover:text-white transition-colors cursor-pointer bg-transparent border-0 outline-none"
+                  className="absolute inset-y-0 right-4 flex items-center text-neutral-400 hover:text-black transition-colors cursor-pointer bg-transparent border-0 outline-none"
                 >
                   <X size={14} />
                 </button>
@@ -121,7 +156,7 @@ export const Search = () => {
               className={`flex items-center justify-center space-x-1.5 h-10 px-4 rounded-full border text-xs font-semibold transition-all cursor-pointer shrink-0 ${
                 showFilters 
                   ? 'bg-[#ff7759] text-white border-transparent shadow-sm' 
-                  : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:text-white'
+                  : 'bg-[#eeece7]/60 border-neutral-200 text-[#616161] hover:bg-[#eeece7]/80 hover:text-[#17171c]'
               }`}
             >
               <Filter size={14} />
@@ -135,28 +170,28 @@ export const Search = () => {
 
         {/* Filter Section */}
         {showFilters && (
-          <div className="space-y-4 max-w-4xl p-5 md:p-6 bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-2xl animate-fade-in">
+          <div className="space-y-4 max-w-4xl p-5 md:p-6 bg-white border border-neutral-200 rounded-2xl animate-fade-in shadow-sm">
             
-            <div className="flex items-center space-x-2 border-b border-white/5 pb-3 mb-4">
-              <Filter size={14} className="text-secondary" />
-              <h3 className="font-heading text-xs uppercase tracking-wider font-extrabold text-white">
+            <div className="flex items-center space-x-2 border-b border-neutral-100 pb-3 mb-4">
+              <Filter size={14} className="text-[#ff7759]" />
+              <h3 className="font-heading text-xs uppercase tracking-wider font-bold text-[#17171c]">
                 Filter Results
               </h3>
               
               {(selectedCategory || selectedDifficulty || selectedTool || query) && (
                 <button 
                   onClick={handleClearFilters}
-                  className="text-[10px] text-primary hover:underline font-bold uppercase ml-auto cursor-pointer bg-transparent border-0 outline-none"
+                  className="text-[10px] text-[#ff7759] hover:underline font-bold uppercase ml-auto cursor-pointer bg-transparent border-0 outline-none"
                 >
                   Reset All
                 </button>
               )}
             </div>
 
-            <div className="space-y-4 text-xs">
+            <div className="space-y-4 text-xs text-left">
               {/* Category Pills */}
               <div className="space-y-1.5">
-                <span className="font-semibold text-textSecondary">Category:</span>
+                <span className="font-semibold text-[#616161]">Category:</span>
                 <div className="flex flex-wrap gap-1.5">
                   {categories.map((c) => {
                     const isActive = selectedCategory === c.slug;
@@ -166,8 +201,8 @@ export const Search = () => {
                         onClick={() => setSelectedCategory(isActive ? undefined : c.slug)}
                         className={`px-3 py-1 rounded-full border transition-all text-[11px] cursor-pointer ${
                           isActive
-                            ? 'bg-primary text-white border-primary'
-                            : 'border-border1 text-textSecondary hover:bg-surface1'
+                            ? 'bg-[#17171c] text-white border-[#17171c]'
+                            : 'border-neutral-200 text-neutral-600 hover:bg-[#eeece7]/50'
                         }`}
                       >
                         {c.name}
@@ -179,7 +214,7 @@ export const Search = () => {
 
               {/* Difficulty Pills */}
               <div className="space-y-1.5">
-                <span className="font-semibold text-textSecondary">Difficulty:</span>
+                <span className="font-semibold text-[#616161]">Difficulty:</span>
                 <div className="flex flex-wrap gap-1.5">
                   {difficulties.map((diff) => {
                     const isActive = selectedDifficulty === diff;
@@ -189,8 +224,8 @@ export const Search = () => {
                         onClick={() => setSelectedDifficulty(isActive ? undefined : diff)}
                         className={`px-3 py-1 rounded-full border transition-all text-[11px] cursor-pointer ${
                           isActive
-                            ? 'bg-primary text-white border-primary'
-                            : 'border-border1 text-textSecondary hover:bg-surface1'
+                            ? 'bg-[#17171c] text-white border-[#17171c]'
+                            : 'border-neutral-200 text-neutral-600 hover:bg-[#eeece7]/50'
                         }`}
                       >
                         {diff}
@@ -202,7 +237,7 @@ export const Search = () => {
 
               {/* Tool Chips */}
               <div className="space-y-1.5">
-                <span className="font-semibold text-textSecondary">Tool Used:</span>
+                <span className="font-semibold text-[#616161]">Tool Used:</span>
                 <div className="flex flex-wrap gap-1.5">
                   {popularTools.map((tool) => {
                     const isActive = selectedTool === tool;
@@ -212,8 +247,8 @@ export const Search = () => {
                         onClick={() => setSelectedTool(isActive ? undefined : tool)}
                         className={`px-3 py-1 rounded-full border transition-all text-[11px] cursor-pointer ${
                           isActive
-                            ? 'bg-secondary text-white border-secondary'
-                            : 'border-border1 text-textSecondary hover:bg-surface1'
+                            ? 'bg-[#ff7759] text-white border-[#ff7759]'
+                            : 'border-neutral-200 text-neutral-600 hover:bg-[#eeece7]/50'
                         }`}
                       >
                         {tool}
@@ -229,21 +264,30 @@ export const Search = () => {
 
         {/* Results Container */}
         <div className="space-y-6">
-          <div className="text-xs font-semibold text-textSecondary border-b border-border1 pb-2">
-            Search Results ({trends.length})
+          <div className="flex items-center justify-between border-b border-neutral-100 pb-2">
+            <span className="text-xs font-bold text-[#616161] text-left">
+              {debouncedQuery 
+                ? `Showing ${Math.min(visibleCount, searchResults.length)} of ${searchResults.length} results`
+                : `Showing ${searchResults.length} total results`}
+            </span>
+            {hasMore && debouncedQuery && !loading && (
+              <span className="text-[10px] text-neutral-400">
+                {searchResults.length - visibleCount} more available
+              </span>
+            )}
           </div>
 
           {loading ? (
             <LatestGridSkeleton count={8} showHeader={false} />
-          ) : trends.length === 0 ? (
+          ) : searchResults.length === 0 ? (
             <div className="text-center py-20 max-w-lg mx-auto">
               {/* Illustrated empty state */}
               <div className="mb-8 flex justify-center">
                 <div className="relative w-28 h-28">
                   {/* Outer ring */}
-                  <div className="absolute inset-0 rounded-full border-2 border-dashed border-border1 animate-[spin_20s_linear_infinite]" />
+                  <div className="absolute inset-0 rounded-full border-2 border-dashed border-neutral-200 animate-[spin_20s_linear_infinite]" />
                   {/* Inner glow circle */}
-                  <div className="absolute inset-3 rounded-full bg-surface2 border border-border1 flex items-center justify-center">
+                  <div className="absolute inset-3 rounded-full bg-neutral-50 border border-neutral-200 flex items-center justify-center">
                     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                       {/* Telescope body */}
                       <rect x="8" y="22" width="28" height="6" rx="3" fill="#eeece7" stroke="#d9d9dd" strokeWidth="1.5"/>
@@ -264,8 +308,8 @@ export const Search = () => {
                 </div>
               </div>
 
-              <h3 className="font-heading text-xl font-semibold text-textPrimary mb-2">No guides found</h3>
-              <p className="text-xs text-textMuted leading-relaxed mb-8 max-w-sm mx-auto">
+              <h3 className="font-heading text-xl font-bold text-[#17171c] mb-2">No guides found</h3>
+              <p className="text-xs text-neutral-400 leading-relaxed mb-8 max-w-sm mx-auto">
                 We couldn't find any AI guides matching your search. Try a different keyword or explore these popular categories.
               </p>
 
@@ -281,7 +325,7 @@ export const Search = () => {
                   <button
                     key={s.q}
                     onClick={() => { setQuery(s.q); setSelectedCategory(undefined); }}
-                    className="px-4 py-2 text-xs bg-white/5 border border-white/10 rounded-full text-white/60 hover:border-white/25 hover:text-white hover:bg-white/10 transition-all cursor-pointer font-medium"
+                    className="px-4 py-2 text-xs bg-neutral-50 border border-neutral-200 rounded-full text-neutral-600 hover:border-neutral-300 hover:text-black hover:bg-neutral-100 transition-all cursor-pointer font-medium"
                   >
                     {s.label}
                   </button>
@@ -289,11 +333,105 @@ export const Search = () => {
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 items-start">
-              {trends.map((trend, idx) => (
-                <TrendCard key={trend.id} trend={trend} delayIndex={idx} />
-              ))}
-            </div>
+            <>
+              {debouncedQuery ? (
+                // Google-Style List View for active searches
+                <div className="space-y-8 max-w-3xl text-left">
+                  {visibleTrends.map((trend) => (
+                    <div key={trend.id} className="group">
+                      <Link to={`/trend/${trend.slug}`} className="block">
+                        <div className="flex items-center gap-1.5 text-[11px] text-[#202124] mb-1">
+                          <div className="w-5 h-5 rounded-full bg-neutral-100 flex items-center justify-center shrink-0">
+                            <span className="text-[8px]">🎯</span>
+                          </div>
+                          <span>ViralAI Hub</span>
+                          <ChevronRight size={10} className="text-neutral-400" />
+                          <span className="text-neutral-500">{trend.category?.name || 'Guide'}</span>
+                        </div>
+                        <h3 className="text-lg sm:text-xl font-medium text-[#1a0dab] group-hover:underline mb-1">
+                          {trend.title}
+                        </h3>
+                        <p className="text-sm text-[#4d5156] line-clamp-2 leading-relaxed">
+                          {trend.short_description}
+                        </p>
+                        <div className="mt-2 flex flex-wrap gap-1.5">
+                          {trend.tools?.map((t) => (
+                            <button 
+                              key={t} 
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setQuery(t);
+                              }}
+                              className="text-[10px] bg-neutral-100 text-neutral-600 hover:bg-neutral-200 hover:text-black px-2 py-0.5 rounded-sm transition-colors cursor-pointer border-0"
+                            >
+                              {t}
+                            </button>
+                          ))}
+                        </div>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                // Grouped Cards View for browsing
+                <div className="space-y-12">
+                  {Object.entries(
+                    searchResults.reduce((acc, trend) => {
+                      const catName = trend.category?.name || 'Other';
+                      if (!acc[catName]) acc[catName] = [];
+                      acc[catName].push(trend);
+                      return acc;
+                    }, {} as Record<string, typeof searchResults>)
+                  ).map(([categoryName, items]) => {
+                    const limit = categoryLimits[categoryName] || INITIAL_CATEGORY_COUNT;
+                    const visibleItems = items.slice(0, limit);
+                    const hasMoreInCategory = limit < items.length;
+
+                    return (
+                      <div key={categoryName} className="space-y-4">
+                        <div className="flex items-center gap-2 border-b border-neutral-100 pb-2">
+                          <h3 className="font-heading text-sm md:text-base font-bold text-[#17171c]">{categoryName}</h3>
+                          <span className="text-[10px] bg-neutral-100 text-neutral-500 px-2 py-0.5 rounded-full font-medium">
+                            {items.length}
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 items-start">
+                          {visibleItems.map((trend, idx) => (
+                            <TrendCard key={trend.id} trend={trend} delayIndex={idx % LOAD_MORE_CATEGORY_COUNT} />
+                          ))}
+                        </div>
+                        {hasMoreInCategory && (
+                          <div className="flex justify-center pt-2">
+                            <button
+                              onClick={() => setCategoryLimits(prev => ({
+                                ...prev,
+                                [categoryName]: (prev[categoryName] || INITIAL_CATEGORY_COUNT) + LOAD_MORE_CATEGORY_COUNT
+                              }))}
+                              className="px-6 py-2 text-[11px] font-semibold text-[#17171c] bg-white border border-neutral-200 rounded-full hover:border-neutral-400 hover:bg-neutral-50 transition-all cursor-pointer"
+                            >
+                              Load More {categoryName}
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Global Load More (Only for list view) */}
+              {hasMore && debouncedQuery && (
+                <div className="flex justify-center pt-4">
+                  <button
+                    onClick={() => setVisibleCount(prev => prev + PAGE_SIZE)}
+                    className="px-8 py-2.5 text-xs font-semibold text-[#17171c] bg-white border border-neutral-200 rounded-full hover:border-neutral-400 hover:bg-neutral-50 transition-all cursor-pointer"
+                  >
+                    Load More Results
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
 
